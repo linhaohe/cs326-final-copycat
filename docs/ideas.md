@@ -9,6 +9,7 @@ Team Member  | GitHub Username
 Linhao He 	 |	linhaohe
 Zetang Lei	 |	zetangL
 Shipeng He	 |	HereAndPeng
+Nghia Pham   | 
 
 <br>
 
