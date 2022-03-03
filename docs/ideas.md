@@ -4,12 +4,12 @@
 <br>
 
 ### Team Overview
-Team Member  | GitHub Username
--------------|---------
+Team Members | GitHub Usernames
+-------------|-----------------
 Linhao He 	 |	linhaohe
 Zetang Lei	 |	zetangL
 Shipeng He	 |	HereAndPeng
-Nghia Pham   | 
+Nghia Pham   |  minhnghia2208
 
 <br>
 
