@@ -21,4 +21,5 @@ Our project will be focusing on building a data management web application for a
 
 ### Important Components
 
-The important components we will be implementing are the grid to display SQL data. The toolbox allows users to quickly perform a filter, export, sort, add, delete, and edit on the existing grid. The sidebar displays the existing SQL tables in the database.
+The important components we will be implementing consists of grids to display the music SQL data. There will be a sidebar that displays the existing SQL tables in the database that the admins can manage. The data admin can select on the data tables they want, then a grid of the repective table would show up.
+There will also be a toolbox that allow users to quickly perform actions such as filter, export, sort, add, delete, and edit on the existing grid. 
