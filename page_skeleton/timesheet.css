@@ -1,0 +1,76 @@
+.row-height {
+    height: 30px
+}
+
+.button {
+    height: auto;
+    width: 100px;
+    margin: 10px;
+
+}
+.btn-group {
+    float: right;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 15vh;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+  }
+
+  /* The Close Button */
+  .close {
+    color: black;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .modal-header {
+    padding: 2px 16px;
+  }
+  
+  /* Modal Body */
+  .modal-body {
+      padding: 2px 16px;
+    }
+  
+  /* Modal Footer */
+  .modal-footer {
+    padding: 2px 16px;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 2px solid black;
+    width: 80%;
+  }
+
+.box {
+    height: 100vh;
+    overflow: auto;
+}
+
+.container{
+    max-width: 100%;
+}
+
+.tab {
+  border: 1px solid black;
+}
