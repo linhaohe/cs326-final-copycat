@@ -63,45 +63,45 @@
                                                 <div class="col-md-2">Month:</div>
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">From:</label>
-                                                    <input type="number" min="1" max="12">
+                                                    <input id="fmonth" type="number" min="1" max="12" value="1">
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">To:</label>
-                                                    <input type="number" min="1" max="12">
+                                                    <input id="tmonth" type="number" min="1" max="12" value="1">
                                                 </div>
 
-                                                <div class="col-md-2">Current Month</div>
+                                                <div id="cmonth" class="col-md-2">Current Month</div>
                                             </div>
 
                                             <div class="row mb-1">
                                                 <div class="col-md-2">Day:</div>
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">From:</label>
-                                                    <input type="number" min="1" max="31">
+                                                    <input id="fday" type="number" min="1" max="31" value="1">
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">To:</label>
-                                                    <input type="number" min="1" max="31">
+                                                    <input id="tday" type="number" min="1" max="31" value="1">
                                                 </div>
 
-                                                <div class="col-md-2">Today</div>
+                                                <div id="today" class="col-md-2">Today</div>
                                             </div>
 
                                             <div class="row mb-1">
                                                 <div class="col-md-2">Hour:</div>
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">From:</label>
-                                                    <input type="number" min="1" max="24">
+                                                    <input id="fhour" type="number" min="1" max="24" value="1">
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label for="fromMonth">To:</label>
-                                                    <input type="number" min="1" max="24">
+                                                    <input id="thour" type="number" min="1" max="24" value="1">
                                                 </div>
 
-                                                <div class="col-md-2">Last Hour</div>
+                                                <div id="lhour" class="col-md-2">Last Hour</div>
                                             </div>
                                         </div>
 
@@ -114,8 +114,9 @@
                                     </div>
                                 </div>
                                 <!-- END OF MODAL COMPONENT -->
+                                <h2>ALL</h2>
+
                                 <div class="btn-group">
-                                    
                                     <button id="filter" type="button" class="btn btn-primary button">
                                         Filter
                                     </button>
@@ -183,6 +184,7 @@
             <div>
             <!-- TAB -->
             <script type="text/javascript" defer>
+                let count = 0;
                 function createTab(tagName) {
                     const all = document.getElementById(tagName);
                     const ts = document.getElementById("tab-section");
@@ -204,7 +206,6 @@
                         ts.appendChild(comp);
                     }
                 }
-
                 createTab("all");
                 createTab("add");
                 createTab("delete");
@@ -248,6 +249,36 @@
                         modal.style.display = "none";
                     }
                 }
+
+                const cmonth = document.getElementById("cmonth");
+                cmonth.onclick = function() {
+                    const now = new Date();
+                    const fmonth = document.getElementById("fmonth");
+                    const tmonth = document.getElementById("tmonth");
+
+                    fmonth.value = now.getMonth();
+                    tmonth.value = now.getMonth() + 1;
+                }
+
+                const today = document.getElementById("today");
+                today.onclick = function() {
+                    const now = new Date();
+                    const fday = document.getElementById("fday");
+                    const tday = document.getElementById("tday");
+
+                    fday.value = now.getDate() - 1;
+                    tday.value = now.getDate();
+                }
+
+                const lhour = document.getElementById("lhour");
+                lhour.onclick = function() {
+                    const now = new Date();
+                    const fhour = document.getElementById("fhour");
+                    const thour = document.getElementById("thour");
+
+                    fhour.value = now.getHours() - 1;
+                    thour.value = now.getHours();
+                }
             </script>
             <!-- END MODAL -->
         </body>
@@ -264,5 +295,5 @@
                         }
                         table.appendChild(tr);
                     }
-        </script> -->
+    </script> -->
                     
