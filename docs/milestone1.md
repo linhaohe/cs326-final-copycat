@@ -14,6 +14,8 @@ Nghia Pham   |  minhnghia2208
 <br>
 
 ### Data Interactions
+Our project will be focusing on building a data management web application for an existing music player. The potential users of this application are admins, data engineers, and user support. The web application will display the data from the SQL database; the data consists of individual artists, playlists, songs, song cover images, and genre. After the data is displayed, the user is able to add, edit, and delete from the corresponding database. The user is also able to perform actions such as filtering, sorting, and exporting on the current grid through the web application. Each of the user’s actions will be recorded and time-stamped, so the user can tell when it a given action is performed. All action data will also be displayed to the user in forms of graphs and charts, for the purpose of better understanding user activities over a given period of time.
+
 
 ### WireFrame
 [Link to Entire WireFrame](https://github.com/linhaohe/cs326-final-copycat/blob/main/docs/copycat_wireframe.jpg)
