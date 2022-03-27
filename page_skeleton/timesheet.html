@@ -9,7 +9,6 @@
 
         <!-- <object style="width: 100%; height: auto;" type="text/html" data="header.html"></object> -->
         <body class="">
-
             <div class= "box">
                 <div class="container-fluid h-100">
                     <div class = "row h-100 px-0">
@@ -18,22 +17,22 @@
                                 <div class = "col border-bottom border-secondary">
                                     <div class="text-primary text-center mb-0">Timesheet</div>
                                 </div>
-                                <div class = "col px-2 mb-1">
+                                <div id="all" class = "col px-2 mb-1">
                                     All
                                 </div>
-                                <div class = "col px-2 my-1">
+                                <div id="add" class = "col px-2 my-1">
                                     Add
                                 </div>
-                                <div class = "col px-2 my-1">
+                                <div id="delete" class = "col px-2 my-1">
                                     Delete
                                 </div>
-                                <div class = "col px-2 my-1">
+                                <div id="edit" class = "col px-2 my-1">
                                     Edit
                                 </div>
-                                <div class = "col px-2 my-1">
+                                <div id="export" class = "col px-2 my-1">
                                     Export
                                 </div>
-                                <div class = "col px-2 my-1">
+                                <div id="select" class = "col px-2 my-1">
                                     Select
                                 </div>
                             </div>
@@ -42,9 +41,10 @@
                         <div class="col-10 border-end border-secondary">
                             <div class = "contatiner h-100">
                                 <div class = "col border-bottom border-secondary">
-                                    <div class="row mb-0">
-                                        <div class="tab col-md-1">All</div>
-                                        <div class="tab col-md-1">Delete</div>
+                                    <div id="tab-section" class="row mb-0">
+                                        <div class="tab col-md-1">
+                                            All
+                                        </div>
                                     </div>
                                 </div>
                                 <!-- MODAL COMPONENT -->
@@ -180,8 +180,39 @@
                     </div>
                 </div>
             <div>
-            
-            
+                <!-- <div class="tab col-md-1">
+                    All
+                </div>
+                <div class="tab col-md-1">Delete</div> -->
+            <!-- TAB -->
+            <script type="text/javascript" defer>
+                function createTab(tagName) {
+                    const all = document.getElementById(tagName);
+                    const ts = document.getElementById("tab-section");
+                    all.onclick = function() {
+                        const comp = document.createElement("div");
+                        comp.classList.add("tab");
+                        comp.classList.add("col-md-1");
+                        
+                        const name = tagName.split('');
+                        name[0] = name[0].toUpperCase();
+                        const text = document.createTextNode(name.join(''));
+                        comp.appendChild(text);
+
+                        ts.appendChild(comp);
+                    }
+                }
+
+                createTab("all");
+                createTab("add");
+                createTab("delete");
+                createTab("edit");
+                createTab("export");
+                createTab("select");
+            </script>
+            <!-- END TAB -->
+
+            <!-- MODAL  -->
             <script type="text/javascript" defer>
                 // Get the modal
                 var modal = document.getElementById("myModal");
@@ -216,9 +247,9 @@
                     }
                 }
             </script>
+            <!-- END MODAL -->
         </body>
     </html>
-
 
 <!-- <script type="text/javascript">
                     const table = document.getElementById("tbl");
