@@ -49,12 +49,17 @@ Contributor: Nghia (Keith) Pham
 <br>
 Screenshot:
 ![Timesheets Page Screenshot](./milestone1_screenshots/TimesheetPageScreenshot.png)
-In this page, the user can see the timestamps of each action they had done previously. Similar to the data presented in the dashboard, the data are separated into 5 different main sections. The user could select onto one of the tabs on the right to view specifically the timesheet data of that action. The data in this page would be much more specific than those presented on the dashboard with specific timestamps.
+In this page, the user can see the timestamps of each action any admins had done previously, including themselves. Similar to the data presented in the dashboard, the data are separated into 5 different main sections. The user could select onto one of the tabs on the right to view specifically the timesheet data of that action. The data in this page would be much more specific than those presented on the dashboard with specific timestamps and which user performed which actions.
 
 <br>
 <br>
 
-#### Music Records:
+#### Music Tables:
+Contributor: Shipeng He
+<br>
+Screenshot:
+![Table Page Screenshot](./milestone1_screenshots/TablesPageScreenshot.png)
+This page presents the main purpose of this web application. On the left sidebar, there are a list of tables that the current admin user can manage. When they click onto a table, it would open up the table the in main screen. There, they can perform various actions such as filtering or editing the data in the table.
 
 <br>
 <br>
@@ -64,4 +69,4 @@ Contributor: Linhao He
 <br>
 Screenshot:
 ![Setting Page Screenshot](./milestone1_screenshots/SettingPageScreenshot.png)
-In this page, the user can change their profile information such as changing their personal info, profile picture, password, and other web app related settings.
+In this page, the user can change their profile information such as changing their personal info, profile picture, password, and other settings.
