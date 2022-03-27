@@ -1,0 +1,67 @@
+.box {
+    height: 100vh;
+    overflow: auto;
+  }
+  
+  
+  
+  /* Pagination links */
+  .pagination a {
+    color: black;
+    float: right;
+    padding: 8px 16px;
+    text-decoration: none;
+  }
+  
+  
+  .pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+  }
+  
+  
+  
+  /* Add a grey background color on mouse-over */
+  .pagination a:hover:not(.active) {
+    background-color: #ddd;
+  }
+  
+  .table-bordered {
+    border: 1px solid #000;
+    border-collapse: collapse;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+  
+  
+  
+  
+  /* Style the links inside the navigation bar */
+  .topnav a {
+    float: right;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 12px;
+    border: 1px solid #000;
+    border-collapse: collapse;
+  }
+  
+  
+  
+  /* Change the color of links on hover */
+  .topnav a:hover {
+    background-color: dodgerblue;
+    color: black;
+  }
+  
+  /* Add a color to the active/current link */
+  .topnav a.active {
+    background-color: dodgerblue;
+    color: black;
+  }
+  
+  
+  .tab {
+    border: 1px solid black;
+  }
