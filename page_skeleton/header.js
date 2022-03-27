@@ -8,7 +8,7 @@ function clickMenu() {
         sidebar.style.width = "0px";
         body.style.padding = "70px 0 0 5px";
         sidebar.style.padding = "70px 0 0 0";
-        sidebar.classList.remove("border-right");
+        sidebar.classList.remove("border-end");
         sidebar.classList.remove("border-dark");
         mainNav.style.margin = "0 0 0 0";
     } else {
@@ -16,7 +16,7 @@ function clickMenu() {
         sidebar.style.width = "200px";
         sidebar.style.padding = "70px 0 0 0";
         body.style.padding = "70px 0 0 205px";
-        sidebar.classList.add("border-right");
+        sidebar.classList.add("border-end");
         sidebar.classList.add("border-dark");
         mainNav.style.margin = "0 0 0 200px";
     }
