@@ -1,0 +1,26 @@
+{
+  "name": "cs326-final-copycat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/linhaohe/cs326-final-copycat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/linhaohe/cs326-final-copycat/issues"
+  },
+  "homepage": "https://github.com/linhaohe/cs326-final-copycat#readme",
+  "dependencies": {
+    "express": "^4.17.3"
+  }
+}
