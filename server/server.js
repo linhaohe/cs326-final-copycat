@@ -17,8 +17,12 @@ app.get('/activities', async (request, response) => {
     const timeTo = JSON.parse(query.timeTo);
     await functions.getFakeActivityHistory(response, activityType, timeFrom, timeTo);
 });
+
+// app.use('/dashboard', express.static('page_skeleton/dashboard_page'));
+
 // Init fake data
 functions.initFakeData();
+
 
 
 
