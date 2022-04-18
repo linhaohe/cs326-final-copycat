@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./header.css">
     <link rel="stylesheet" href="./dashboard.css">
     
+    <script src="./dashboard.js" defer></script>
     <script src="./header.js" defer></script>
     <title>Dashboard</title>
   </head>
@@ -72,17 +73,18 @@
                 <h2 class="col-6">All Actions</h2>
                 <div class="col-6">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Year</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Day</button>
-                    <button type="button" class="btn btn-secondary">Hour</button>
+                    <button type="button" class="btn btn-primary" id="all-year">Year</button>
+                    <button type="button" class="btn btn-secondary" id="all-month">Month</button>
+                    <button type="button" class="btn btn-secondary" id="all-week">Week</button>
+                    <button type="button" class="btn btn-secondary" id="all-day">Day</button>
+                    <button type="button" class="btn btn-secondary" id="all-hour">Hour</button>
                   </div>
                 </div>
                 <br>
               </div>
               <div class="row">
-                <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+                <canvas id="allActivitiesLineGraph"></canvas>
               </div>
             </div>
 
@@ -93,17 +95,18 @@
                 <h2 class="col-6">Add</h2>
                 <div class="col-6">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Year</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Day</button>
-                    <button type="button" class="btn btn-secondary">Hour</button>
+                    <button type="button" class="btn btn-primary" id="add-year">Year</button>
+                    <button type="button" class="btn btn-secondary" id="add-month">Month</button>
+                    <button type="button" class="btn btn-secondary" id="add-week">Week</button>
+                    <button type="button" class="btn btn-secondary" id="add-day">Day</button>
+                    <button type="button" class="btn btn-secondary" id="add-hour">Hour</button>
                   </div>
                 </div>
                 <br>
               </div>
               <div class="row">
-                <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+                <canvas id="activitiesGraphAdd"></canvas>
               </div>
             </div>
 
@@ -114,17 +117,18 @@
                 <h2 class="col-6">Delete</h2>
                 <div class="col-6">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Year</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Day</button>
-                    <button type="button" class="btn btn-secondary">Hour</button>
+                    <button type="button" class="btn btn-primary" id="delete-year">Year</button>
+                    <button type="button" class="btn btn-secondary" id="delete-month">Month</button>
+                    <button type="button" class="btn btn-secondary" id="delete-week">Week</button>
+                    <button type="button" class="btn btn-secondary" id="delete-day">Day</button>
+                    <button type="button" class="btn btn-secondary" id="delete-hour">Hour</button>
                   </div>
                 </div>
                 <br>
               </div>
               <div class="row">
-                <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+                <canvas id="activitiesGraphDelete"></canvas>
               </div>
             </div>
             
@@ -135,17 +139,18 @@
                 <h2 class="col-6">Edit</h2>
                 <div class="col-6">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Year</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Day</button>
-                    <button type="button" class="btn btn-secondary">Hour</button>
+                    <button type="button" class="btn btn-primary" id="edit-year">Year</button>
+                    <button type="button" class="btn btn-secondary" id="edit-month">Month</button>
+                    <button type="button" class="btn btn-secondary" id="edit-week">Week</button>
+                    <button type="button" class="btn btn-secondary" id="edit-day">Day</button>
+                    <button type="button" class="btn btn-secondary" id="edit-hour">Hour</button>
                   </div>
                 </div>
                 <br>
               </div>
               <div class="row">
-                <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+                <canvas id="activitiesGraphEdit"></canvas>
               </div>
             </div>
 
@@ -156,17 +161,18 @@
                 <h2 class="col-6">Export</h2>
                 <div class="col-6">
                   <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary">Year</button>
-                    <button type="button" class="btn btn-secondary">Month</button>
-                    <button type="button" class="btn btn-secondary">Week</button>
-                    <button type="button" class="btn btn-secondary">Day</button>
-                    <button type="button" class="btn btn-secondary">Hour</button>
+                    <button type="button" class="btn btn-primary" id="export-year">Year</button>
+                    <button type="button" class="btn btn-secondary" id="export-month">Month</button>
+                    <button type="button" class="btn btn-secondary" id="export-week">Week</button>
+                    <button type="button" class="btn btn-secondary" id="export-day">Day</button>
+                    <button type="button" class="btn btn-secondary" id="export-hour">Hour</button>
                   </div>
                 </div>
                 <br>
               </div>
               <div class="row">
-                <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+                <canvas id="activitiesGraphExport"></canvas>
               </div>
             </div>
 
@@ -177,21 +183,23 @@
               <h2 class="col-6">Select</h2>
               <div class="col-6">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-primary">Year</button>
-                  <button type="button" class="btn btn-secondary">Month</button>
-                  <button type="button" class="btn btn-secondary">Week</button>
-                  <button type="button" class="btn btn-secondary">Day</button>
-                  <button type="button" class="btn btn-secondary">Hour</button>
+                  <button type="button" class="btn btn-primary" id="select-year">Year</button>
+                  <button type="button" class="btn btn-secondary" id="select-month">Month</button>
+                  <button type="button" class="btn btn-secondary" id="select-week">Week</button>
+                  <button type="button" class="btn btn-secondary" id="select-day">Day</button>
+                  <button type="button" class="btn btn-secondary" id="select-hour">Hour</button>
                 </div>
               </div>
               <br>
             </div>
             <div class="row">
-              <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph">
+              <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
+              <canvas id="activitiesGraphSelect"></canvas>
             </div>
           </div>
           <div class="col-4" id="pieChart">
-            <img src="./misc/Pie Chart.png" class="img-fluid" alt="Image Place holder for a pie chart">
+            <!-- <img src="./misc/Pie Chart.png" class="img-fluid" alt="Image Place holder for a pie chart"> -->
+            <canvas id="pieGraph"></canvas>
           </div>
         </div>
       </div>
@@ -202,5 +210,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.5.1/chart.min.js" integrity="sha512-Wt1bJGtlnMtGP0dqNFH1xlkLBNpEodaiQ8ZN5JLA5wpc1sUlk/O5uuOMNgvzddzkpvZ9GLyYNa8w2s7rqiTk5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </body>
 </html>
