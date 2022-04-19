@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
+import * as auth from './auth.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,8 +24,13 @@ app.get('/activities', async (request, response) => {
 // Init fake data
 functions.initFakeData();
 
+app.post('/signup', (req, res) => {
+    
+})
+app.post('/login', (req, res) => {
+    auth.login(req, res);
+});
 
 app.listen(port, () => {
     console.log(`Server started on poart ${port}`);
 });
-  
