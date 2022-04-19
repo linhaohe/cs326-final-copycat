@@ -25,7 +25,7 @@ app.get('/activities', async (request, response) => {
 functions.initFakeData();
 
 app.post('/signup', (req, res) => {
-    
+    auth.signup(req, res);
 })
 app.post('/login', (req, res) => {
     auth.login(req, res);
