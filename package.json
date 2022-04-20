@@ -9,6 +9,7 @@
   },
   "scripts": {
     "devStart": "nodemon server.js",
+    "deploy": "copyfiles data/* page_skeleton/* server/* .env package*.json deploy",
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -32,6 +33,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^6.1.2",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "copyfiles": "^2.4.1"
   }
 }
