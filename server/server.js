@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
+import * as ts from './timesheetUtils.js';
 import * as auth from './auth.js';
 
 const app = express();
@@ -30,6 +31,27 @@ app.put('/account/[0-9]*/profile',(req,res) => {
     //update the database by user request
 });
 
+// TimeSheet endpoints
+// TODO: Add Pagination for all endpoints
+app.get('/timesheet/all', async (req, res) => {
+    await ts.getAll(req, res);
+});
+app.get('/timesheet/add', async (req, res) => {
+    await ts.getAdd(req, res);
+});
+app.get('/timesheet/delete', async (req, res) => {
+    await ts.getDelete(req, res);
+});
+app.get('/timesheet/edit', async (req, res) => {
+    await ts.getEdit(req, res);
+});
+app.get('/timesheet/export', async (req, res) => {
+    await ts.getExport(req, res);
+});
+app.get('/timesheet/select', async (req, res) => {
+    await ts.getSelect(req, res);
+});
+// End of TimeSheet endpoints
 app.put('/account/[0-9]*/profileImage',(req,res) => {
     //update the profile Image in the database by user request
 });
@@ -39,5 +61,5 @@ app.put('/account/[0-9]*/profilePassword',(req,res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server started on poart ${port}`);
+    console.log(`Server started on port ${port}`);
 });
