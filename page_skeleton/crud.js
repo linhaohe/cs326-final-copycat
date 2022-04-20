@@ -39,3 +39,12 @@ export async function updateProfile(name,email,address,userId){
     
     return data;
 }
+
+export async function readActivityDatetimes(activityType, timeFrom, timeTo) {
+    // timeFrom and timeTo are JSON.stringified versions of Date objects
+    const response = await fetch(`/activities?activityType=${activityType}&timeFrom=${timeFrom}&timeTo=${timeTo}`, {
+        method: 'GET',
+    });
+    const data = await response.json();
+    return data
+}

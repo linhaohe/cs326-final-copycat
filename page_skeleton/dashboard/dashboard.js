@@ -1,3 +1,4 @@
+import * as crud from '../crud.js';
 
 // Initializing all activity graphs as empty
 const activityGraphIDs = ['allActivitiesLineGraph', 'activitiesGraphAdd', 'activitiesGraphDelete', 
@@ -59,8 +60,7 @@ const pastTimes = [twelveYearsAgo, twelveMonthsAgo, twelveWeeksAgo, twelveDaysAg
 async function updateLineGraph(activityIndex, activityType, timeIndex) {
     let timeFrom = JSON.stringify(pastTimes[timeIndex]());
     let timeTo = JSON.stringify(new Date());
-    const response = await fetch(`/activities?activityType=${activityType}&timeFrom=${timeFrom}&timeTo=${timeTo}`);
-    const data = await response.json();
+    const data = await crud.readActivityDatetimes(activityType, timeFrom, timeTo);
     if (activityType === 'all') {
         updatePieGraph(data);
     }
