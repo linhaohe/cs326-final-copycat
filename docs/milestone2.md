@@ -11,6 +11,11 @@ Zetang Lei	 |	zetangL
 Shipeng He	 |	HereAndPeng
 Nghia Pham   |  minhnghia2208
 
+<br>
+
+Link to hosted site on Heroku: [Admin Portal Login](https://cs-326-copycat.herokuapp.com/) <br>
+Access [Web App Dashboard](https://cs-326-copycat.herokuapp.com/dashboard/) for the actual site since login authentication was not implemented for milestone 2.
+<br>
 
 ### Part 0: Project API Planning
 + Dashboard:
