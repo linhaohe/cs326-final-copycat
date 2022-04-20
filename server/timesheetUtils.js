@@ -1,17 +1,12 @@
-import fs from 'fs';
-import csv from 'async-csv';
-import * as constant from './constant.js'
+import * as constant from './constant.js';
+import { Database } from './dbFunctions.js';
 
-async function retrieveFakeData() {
-    const stream = await fs.promises.readFile("./data/fakeData.csv", 'utf-8');
-    const rows = await csv.parse(stream);
-    return rows
-}
 const actions = constant.actions;
+const db = new Database();
 
 export async function getAll(req, res) {
     try {
-        const data = await retrieveFakeData();
+        const data = await db.readActions(actions.all);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -22,8 +17,7 @@ export async function getAll(req, res) {
 
 export async function getAdd(req, res) {
     try {
-        let data = await retrieveFakeData();
-        data = data.filter(e => e[3] === actions.add);
+        const data = await db.readActions(actions.add);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -34,8 +28,7 @@ export async function getAdd(req, res) {
 
 export async function getDelete(req, res) {
     try {
-        let data = await retrieveFakeData();
-        data = data.filter(e => e[3] === actions.delete);
+        const data = await db.readActions(actions.delete);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -46,8 +39,7 @@ export async function getDelete(req, res) {
 
 export async function getEdit(req, res) {
     try {
-        let data = await retrieveFakeData();
-        data = data.filter(e => e[3] === actions.edit);
+        const data = await db.readActions(actions.edit);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -58,8 +50,7 @@ export async function getEdit(req, res) {
 
 export async function getExport(req, res) {
     try {
-        let data = await retrieveFakeData();
-        data = data.filter(e => e[3] === actions.export);
+        const data = await db.readActions(actions.export);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -70,8 +61,7 @@ export async function getExport(req, res) {
 
 export async function getSelect(req, res) {
     try {
-        let data = await retrieveFakeData();
-        data = data.filter(e => e[3] === actions.select);
+        const data = await db.readActions(actions.select);
         res.status(200).json({ data: data });
     }
     catch(e) {
