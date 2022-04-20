@@ -2,6 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
+import * as ts from './timesheetUtils.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -23,8 +24,28 @@ app.get('/activities', async (request, response) => {
 // Init fake data
 functions.initFakeData();
 
+// TimeSheet endpoints
+app.get('/timesheet/all', async (res, req) => {
+    await ts.getAll(res, req);
+});
+app.get('/timesheet/add', async (res, req) => {
+    await ts.getAdd(res, req);
+});
+app.get('/timesheet/delete', async (res, req) => {
+    await ts.getDelete(res, req);
+});
+app.get('/timesheet/edit', async (res, req) => {
+    await ts.getEdit(res, req);
+});
+app.get('/timesheet/export', async (res, req) => {
+    await ts.getExport(res, req);
+});
+app.get('/timesheet/select', async (res, req) => {
+    await ts.getSelect(res, req);
+});
+// End of TimeSheet endpoints
 
 app.listen(port, () => {
-    console.log(`Server started on poart ${port}`);
+    console.log(`Server started on port ${port}`);
 });
   
