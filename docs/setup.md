@@ -11,7 +11,8 @@ Zetang Lei	 |	zetangL
 Shipeng He	 |	HereAndPeng
 Nghia Pham   |  minhnghia2208
 
-
+<br><br>
+### To run the program locally:
 Run the following commands in the root path of this project to start the web app: <br>
 ```
 npm install
