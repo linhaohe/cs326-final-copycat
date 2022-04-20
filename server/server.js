@@ -25,23 +25,24 @@ app.get('/activities', async (request, response) => {
 functions.initFakeData();
 
 // TimeSheet endpoints
-app.get('/timesheet/all', async (res, req) => {
-    await ts.getAll(res, req);
+// TODO: Add Pagination for all endpoints
+app.get('/timesheet/all', async (req, res) => {
+    await ts.getAll(req, res);
 });
-app.get('/timesheet/add', async (res, req) => {
-    await ts.getAdd(res, req);
+app.get('/timesheet/add', async (req, res) => {
+    await ts.getAdd(req, res);
 });
-app.get('/timesheet/delete', async (res, req) => {
-    await ts.getDelete(res, req);
+app.get('/timesheet/delete', async (req, res) => {
+    await ts.getDelete(req, res);
 });
-app.get('/timesheet/edit', async (res, req) => {
-    await ts.getEdit(res, req);
+app.get('/timesheet/edit', async (req, res) => {
+    await ts.getEdit(req, res);
 });
-app.get('/timesheet/export', async (res, req) => {
-    await ts.getExport(res, req);
+app.get('/timesheet/export', async (req, res) => {
+    await ts.getExport(req, res);
 });
-app.get('/timesheet/select', async (res, req) => {
-    await ts.getSelect(res, req);
+app.get('/timesheet/select', async (req, res) => {
+    await ts.getSelect(req, res);
 });
 // End of TimeSheet endpoints
 
