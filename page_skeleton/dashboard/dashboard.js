@@ -1,3 +1,4 @@
+import * as crud from '../crud.js';
 
 // Initializing all activity graphs as empty
 const activityGraphIDs = ['allActivitiesLineGraph', 'activitiesGraphAdd', 'activitiesGraphDelete', 
@@ -47,27 +48,19 @@ const pieGraph = new Chart(ctx, {
     }
 });
 
-// allActivitiesLineGraph.data.labels = ["a", "b", "c"];
-// allActivitiesLineGraph.data.datasets[0].data = [12, 19, 3, 5, 10, 10, 100];
-// allActivitiesLineGraph.update();
-// console.log(allActivitiesLineGraph);
-
 const activityTypes = ['all', 'add', 'delete', 'edit', 'export', 'select'];
 const timeFrames = ['year', 'month', 'week', 'day', 'hour'];
-// const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const twelveYearsAgo = () => new Date(new Date().setFullYear(new Date().getFullYear() - 12));
 const twelveMonthsAgo = () => new Date(new Date().setMonth(new Date().getMonth() - 12));
 const twelveWeeksAgo = () => new Date(new Date().setDate(new Date().getDate() - (7*12) - new Date().getDay()));
 const twelveDaysAgo = () => new Date(new Date().setDate(new Date().getDate() - 12));
-// const oneDayAgo = () => new Date(new Date().setDate(new Date().getDate() - 1));
 const twelveHoursAgo = () => new Date(new Date().setHours(new Date().getHours() - 12));
 const pastTimes = [twelveYearsAgo, twelveMonthsAgo, twelveWeeksAgo, twelveDaysAgo, twelveHoursAgo];
 
 async function updateLineGraph(activityIndex, activityType, timeIndex) {
     let timeFrom = JSON.stringify(pastTimes[timeIndex]());
     let timeTo = JSON.stringify(new Date());
-    const response = await fetch(`/activities?activityType=${activityType}&timeFrom=${timeFrom}&timeTo=${timeTo}`);
-    const data = await response.json();
+    const data = await crud.readActivityDatetimes(activityType, timeFrom, timeTo);
     if (activityType === 'all') {
         updatePieGraph(data);
     }
@@ -127,7 +120,6 @@ async function updateLineGraph(activityIndex, activityType, timeIndex) {
                 return new Date(strTime).setMinutes(new Date(strTime).getMinutes() + 1);
             };
     }
-    // console.log(data['add'][0].split(":"));
     let results = {};
     Object.keys(data).forEach((key) => {
         data[key].forEach((strDate) => {
@@ -154,8 +146,6 @@ async function updateLineGraph(activityIndex, activityType, timeIndex) {
         datasetXAxis = datasetXAxis.map( elem => "Week of " + elem);
     }
 
-    console.log(datasetXAxis);
-    console.log(datasetYAxis);
     graphCharts[activityIndex].data.labels = datasetXAxis;
     graphCharts[activityIndex].data.datasets[0].data = datasetYAxis;
     graphCharts[activityIndex].update();

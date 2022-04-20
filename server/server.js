@@ -3,6 +3,7 @@ import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
 import * as ts from './timesheetUtils.js';
+import * as auth from './auth.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -16,13 +17,19 @@ app.get('/activities', async (request, response) => {
     const activityType = query.activityType;
     const timeFrom = JSON.parse(query.timeFrom);
     const timeTo = JSON.parse(query.timeTo);
-    await functions.getFakeActivityHistory(response, activityType, timeFrom, timeTo);
+    await functions.getFakeActivityDatetimes(response, activityType, timeFrom, timeTo);
 });
 
-// app.use('/dashboard', express.static('page_skeleton/dashboard_page'));
+app.post('/signup', (req, res) => {
+    auth.signup(req, res);
+})
+app.post('/login', (req, res) => {
+    auth.login(req, res);
+});
 
-// Init fake data
-functions.initFakeData();
+app.put('/account/[0-9]*/profile',(req,res) => {
+    //update the database by user request
+});
 
 // TimeSheet endpoints
 // TODO: Add Pagination for all endpoints
@@ -45,8 +52,14 @@ app.get('/timesheet/select', async (req, res) => {
     await ts.getSelect(req, res);
 });
 // End of TimeSheet endpoints
+app.put('/account/[0-9]*/profileImage',(req,res) => {
+    //update profile Image the database by user request
+});
+
+app.put('/account/[0-9]*/profilePassword',(req,res) => {
+    //update profile Image the database by user request
+});
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
 });
-  
