@@ -1,33 +1,34 @@
-import { faker } from '@faker-js/faker';
+import {Database} from './dbFunctions.js';
 
 const fakeData = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
+const activityDb = new Database("dburl-here");
+await activityDb.connect();
 
-export function initFakeData() {
-    Object.keys(fakeData).forEach( activity => {
-        // Gerenates each category with some where between 300 and 400 activities in the past year
-        let random = 300 + Math.floor(Math.random() * 100);
-        let oneYearAgo = new Date(new Date().setFullYear(new Date().getFullYear() - 1));
-        fakeData[activity] = faker.date.betweens(oneYearAgo, new Date(), random);
-    });
-}
-
-export async function getFakeActivityHistory(response, activityType, timeFrom, timeTo) {
-    if (Object.keys(fakeData).indexOf(activityType) === -1 && activityType !== 'all') {
+export async function getFakeActivityDatetimes(response, activityType, timeFrom, timeTo) {
+    let activities = await activityDb.readActions(activityType);
+    if (activities === undefined) {
         response.status(404).send({"Status": "activity of type " + activityType + " not found!" });
         return;
     }
     let fromDate = new Date(timeFrom);
     let toDate = new Date(timeTo);
-    function reducer(accumulator, currentActivity) {
-        if (currentActivity !== activityType && activityType !== 'all') {
-            return accumulator;
-        }
-        accumulator[currentActivity] = fakeData[currentActivity].filter( activityDate => {
-            return fromDate <= activityDate && activityDate <= toDate ;
-        });
-        return accumulator;
+    let results = {};
+    activities = activities.filter( elem => {
+        let elemDate = new Date(elem.date);
+        return fromDate <=  elemDate && elemDate <= toDate ;
+    });
+    if (activityType !== 'all') {
+        results[activityType] = activities.map(elem => new Date(elem.date));
+        response.status(200).send(results);
+        return;
     }
-    let results = Object.keys(fakeData).reduce(reducer, {});
+    results = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
+    activities.forEach( elem => {
+        results[elem.action].push(new Date(elem.date));
+    });
     response.status(200).send(results);
 }
 
+export async function closeDB() {
+    await activityDb.close();
+}
