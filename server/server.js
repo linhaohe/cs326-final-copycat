@@ -31,11 +31,11 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 });
 
 app.put('/account/[0-9]*/profileImage',(req,res) => {
-    //update profile Image the database by user request
+    //update the profile Image in the database by user request
 });
 
 app.put('/account/[0-9]*/profilePassword',(req,res) => {
-    //update profile Image the database by user request
+    //update the profile Password in the database by user request
 });
 
 app.listen(port, () => {
