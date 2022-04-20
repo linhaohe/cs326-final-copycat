@@ -16,13 +16,8 @@ app.get('/activities', async (request, response) => {
     const activityType = query.activityType;
     const timeFrom = JSON.parse(query.timeFrom);
     const timeTo = JSON.parse(query.timeTo);
-    await functions.getFakeActivityHistory(response, activityType, timeFrom, timeTo);
+    await functions.getFakeActivityDatetimes(response, activityType, timeFrom, timeTo);
 });
-
-// app.use('/dashboard', express.static('page_skeleton/dashboard_page'));
-
-// Init fake data
-functions.initFakeData();
 
 app.post('/signup', (req, res) => {
     auth.signup(req, res);
