@@ -73,19 +73,36 @@ async function editData(req, res) {
 }
 
 
+// using GET to get data from the fakeData.csv file
+async function getData(req, res) {
+    try{
+        const data = await tableData();
+        const newData = JSON.parse(data);
+        res.send(newData);
+    } catch (err) {
+        console.log(err);
+    }
+}
 
 
 
-app.post('/table/addInput', async (req, res) => {
+
+app.post('/addInput', async (req, res) => {
     await addData(req, res);
 });
 
+
+app.get('/getInput', async (req, res) => {
+    await getData(req, res);
+});
 
 
 app.put('/editInput/:id', async (req, res) => {
     await editData(req, res);
 });
 
+
 app.delete('/deleteInput/:id', async (req, res) => {
     await deleteData(req, res);
 });
+
