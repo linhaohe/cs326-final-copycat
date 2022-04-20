@@ -31,6 +31,18 @@ app.post('/login', (req, res) => {
     auth.login(req, res);
 });
 
+app.put('/account/[0-9]*/profile',(req,res) => {
+    //update the database by user request
+});
+
+app.put('/account/[0-9]*/profileImage',(req,res) => {
+    //update profile Image the database by user request
+});
+
+app.put('/account/[0-9]*/profilePassword',(req,res) => {
+    //update profile Image the database by user request
+});
+
 app.listen(port, () => {
     console.log(`Server started on poart ${port}`);
 });
