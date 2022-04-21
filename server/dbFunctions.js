@@ -3,6 +3,10 @@ import {readFile, writeFile} from 'fs/promises';
 let fakeActivityData = [];
 let fakeActivityDataJSON = './data/fakeActivityData.json';
 
+let fakeMusicData = [];
+let fakeMusicDataJSON = './data/fakeMusicData.json';
+
+
 async function reloadActivityDB() {
     try {
         const data = await readFile(fakeActivityDataJSON, { encoding: 'utf8' });
@@ -15,8 +19,28 @@ async function reloadActivityDB() {
 
 async function saveActivityDB() {
     try {
-        const data = JSON.stringify(counters);
+        const data = JSON.stringify(fakeActivityData);
         await writeFile(fakeActivityDataJSON, data, { encoding: 'utf8' });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+
+async function reloadMusicDB() {
+    try {
+        const data = await readFile(fakeMusicDataJSON, { encoding: 'utf8' });
+        fakeMusicData = JSON.parse(data);
+    } catch (err) {
+        console.log(err);
+        fakeMusicData = [];
+    }
+}
+
+async function saveMusicDB() {
+    try {
+        const data = JSON.stringify(fakeMusicData);
+        await writeFile(fakeMusicDataJSON, data, { encoding: 'utf8' });
     } catch (err) {
         console.log(err);
     }
@@ -98,5 +122,57 @@ export class Database {
         });
 
         return results;
+    }
+
+    // Creates a new music entry
+    async createMusicEntry(song_name, artist, genre, date_created) {
+        await reloadMusicDB();
+        let id = 0;
+        if (fakeMusicData.length === 0) {
+            id = 1;
+        } else {
+            id = fakeMusicData[fakeMusicData.length - 1].id + 1;
+        }
+        
+        let newMusic = {
+            id: id,
+            song_name: song_name,
+            artist: artist,
+            genre: genre,
+            date_created: date_created,
+        }
+        fakeMusicData.push(newMusic);
+        await saveMusicDB();
+        return newMusic;
+    }
+
+    // READ all music data from the database
+    async readAllMusicData() {
+        await reloadMusicDB();
+        return fakeMusicData;
+    }
+
+    // Updates a song's genre given the song name and artist
+    async updateMusicGenre(song_name, artist, genre) {
+        await reloadMusicDB();
+        let results = fakeMusicData.filter((elem) => {
+            return elem.song_name === song_name && elem.artist === artist;
+        });
+        results.forEach(elem => elem.genre = genre);
+        await saveMusicDB();
+        return results.length !== 0;
+    }
+
+
+    // Delete a song given the song name and artist
+    async deleteMusicEntry(song_name, artist) {
+        await reloadMusicDB();
+        let initialLength = fakeMusicData.length;
+        let results = fakeMusicData.filter((elem) => {
+            return elem.song_name !== song_name || elem.artist !== artist;
+        });
+        fakeMusicData = results;
+        await saveMusicDB();
+        return initialLength !== fakeMusicData.length;
     }
 }

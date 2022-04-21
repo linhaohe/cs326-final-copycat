@@ -33,6 +33,15 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 });
 
+app.post('/createMusicEntry', (req, res) => {
+    // Creates a music entry
+    const song_name = req.body.song_name;
+    const artist = req.body.artist;
+    const genre = req.body.genre;
+    const date_created = req.body.date_created;
+    await(res, song_name, artist, genre, date_created);
+});
+
 // TimeSheet endpoints
 // TODO: Add Pagination for all endpoints
 app.get('/timesheet/all', async (req, res) => {
@@ -63,6 +72,25 @@ app.put('/account/[0-9]*/profilePassword',(req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});
 
+});
+
+
+app.get('/music/limit', async (req, res) => {
+    const limit = req.query.limit;
+    await functions.sliceMusicData(res, limit);
+});
+
+app.put('/music/update', async (req, res) => {
+    const song_name = req.query.song_name;
+    const artist = req.query.artist;
+    const genre = req.query.genre;
+    await functions.updateMusicData(res, song_name, artist, genre);
+});
+
+app.delete('/music/delete', async (req, res) => {
+    const song_name = req.query.song_name;
+    const artist = req.query.artist;
+    await functions.deleteMusicData(res, song_name, artist);
 });
 
 app.listen(port, () => {

@@ -1,11 +1,10 @@
 import {Database} from './dbFunctions.js';
 
-const fakeData = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
-const activityDb = new Database("dburl-here");
-await activityDb.connect();
+const db = new Database("dburl-here");
+await db.connect();
 
 export async function getFakeActivityDatetimes(response, activityType, timeFrom, timeTo) {
-    let activities = await activityDb.readActions(activityType);
+    let activities = await db.readActions(activityType);
     if (activities === undefined) {
         response.status(404).send({"Status": "activity of type " + activityType + " not found!" });
         return;
@@ -29,6 +28,36 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
     response.status(200).send(results);
 }
 
+export async function createSong(res, song_name, artist, genre, date_created) {
+    const result = db.createMusicEntry(song_name, artist, genre, date_created);
+    res.status(200).send(result);
+}
+
 export async function closeDB() {
-    await activityDb.close();
+    await db.close();
+}
+
+export async function sliceMusicData(res, length) {
+    let musicData = await db.readAllMusicData();
+    res.status(200).send(musicData.slice(0, length));
+}
+
+
+export async function updateMusicData(res, song_name, artist, genre) {
+    let genreData = await db.updateMusicGenre(song_name, artist, genre);
+    if (genreData) {
+        res.status(200).send(song_name + ' by ' + artist + ' genre updated to ' + genre);
+    } else {
+        res.status(404).send('Song not found');
+    }
+}
+
+
+export async function deleteMusicData(res, song_name, artist) {
+    let deleteData = await db.deleteMusicEntry(song_name, artist);
+    if (deleteData) {
+        res.status(200).send(song_name + ' by ' + artist + ' deleted');
+    } else {
+        res.status(404).send('Song not found');
+    }
 }
