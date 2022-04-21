@@ -116,6 +116,9 @@ Access [Web App Dashboard](https://cs-326-copycat.herokuapp.com/dashboard/) for 
 	+ DELETE /music/delete?song_name="songName"&artist="artistName
 		+ Deletes the given song by that given artist
 		+ Response status 200 if success, or status 404 if not found
+	+ DELETE /music/delete?id=id
+		+ Deletes the song with the given id
+		+ Response status 200 if success, or status 404 if not found
 
 + Settings
 	+ PUT /account/user_id/profileImage
@@ -132,7 +135,7 @@ Access [Web App Dashboard](https://cs-326-copycat.herokuapp.com/dashboard/) for 
 ### Part 3: Front-end Implementation
 #### CREATE
 ![Music Table Create Screenshot](./milestone2_screenshots/Tables_CREATE.png) <br>
-The CRUD action shown here is CREATE. A music entry is being created.
+The CRUD action shown here is CREATE. A music entry is being created with the given music data. This will trigger a POST request to the server. The server will store the song_name, artist, genre, and date_created of the song.
 
 <br><br>
 
@@ -151,8 +154,7 @@ The CRUD action shown here is update. The user informations such as name, email,
 
 #### DELETE
 ![Music Table Delete Screenshot](./milestone2_screenshots/Tables_DELETE.png) <br>
-The CRUD action shown here is DELETE. A music entry is being deleted from the music table. This triggers a delete request to the server that would permanently delete the music entry given the song name and artist name.
-
+The CRUD action shown here is DELETE. A music entry is being deleted from the music table. This triggers a delete request to the server that would permanently delete the music entry with the given id.
 
 
 
