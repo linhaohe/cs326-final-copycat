@@ -100,25 +100,69 @@ Access [Web App Dashboard](https://cs-326-copycat.herokuapp.com/dashboard/) for 
 		“time”: UTCtime
 		}, …]
 
-+ 
++ Tables
+	+ POST /createMusicEntry
+		+ Creates a music entry in the music table with the given info
+		+ Example: /createMusicEntry
+		body = {song_name:"song", artist:"artist", genre:"music_genre", date_created:"2010/1/1"}
+		+ Example Response: Status 200
+		{id: 123, song_name:"song", artist:"artist", genre:"music_genre", date_created:"2010/1/1"}
+	+ GET /music?limit=10
+		+ Response: Status 200
+		[{...}]an array of JSONs of music data of length less than or equal to the given limit
+	+ PUT /music/update?song_name="songName"&artist="artistName"&genre="genre"
+		+ Updates the genre of the given song by that given artist
+		+ Response status 200 if success, or status 404 if not found
+	+ DELETE /music/delete?song_name="songName"&artist="artistName
+		+ Deletes the given song by that given artist
+		+ Response status 200 if success, or status 404 if not found
+
++ Settings
+	+ PUT /account/user_id/profileImage
+		+ body: {img: imgurl}
+		+ Saves the profile image for the given user
+		+ Response 200 on saving image successfully
+	+ PUT /account/user_id/profilePassword
+		+ body: {password: password}
+		+ Saves the password for the given user
+		+ Response 200 on saving password successfully
+
 
 
 ### Part 3: Front-end Implementation
 #### CREATE
-
+![Music Table Create Screenshot](./milestone2_screenshots/Tables_CREATE.png) <br>
+The CRUD action shown here is CREATE. A music entry is being created.
 
 <br><br>
 
 #### READ
 Screenshot:
-![Dashboard READ Screenshot](./milestone2_screenshots/Dashboard_READ.png)
+![Dashboard READ Screenshot](./milestone2_screenshots/Dashboard_READ.png) <br>
 The CRUD action shown here is READ. The data that is displayed on the graphs are read from the server through crud requests. Then the data is sorted and rendered into the graphs shown on the dashboard where the data points belong.
 
 <br><br>
 
 #### UPDATE
+![Settings Update Screenshot](./milestone2_screenshots/Settings_UPDATE.png) <br>
+The CRUD action shown here is update. The user informations such as name, email, and address can be updated by entering in the information and clicking the save button. It will trigger a PUT request to the server which will save the updated user profile information. There is also similar update actions done when changing the password and the user profile image.
 
 <br><br>
 
 #### DELETE
+![Music Table Delete Screenshot](./milestone2_screenshots/Tables_DELETE.png) <br>
+The CRUD action shown here is DELETE. A music entry is being deleted from the music table. This triggers a delete request to the server that would permanently delete the music entry given the song name and artist name.
 
+
+
+
+<br><br>
+<br><br>
+
+##  Division of Labor
+Settings Page: Linhao He <br>
+Dashboard: Zetang Lei <br>
+Timesheet: Nghia Pham <br>
+Tables Page Endpoints: Shipeng He <br>
+Tables Page Frontend render: Linhao He <br>
+Fake Database Functions: Zetang Lei <br>
