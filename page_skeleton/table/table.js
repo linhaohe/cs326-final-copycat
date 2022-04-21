@@ -70,13 +70,14 @@ function renderAddParam(headerData){
     button.classList.add("btn");
     button.classList.add("btn-primary");
     button.innerHTML = "Submit";
-    button.addEventListener('click', (event) => {
+    button.addEventListener('click', async(event) => {
         event.preventDefault();
         let obj = {};
         for(let item in inputBox){
             obj[item] = inputBox[item].value;
         }
-
+        await addRowToSchema(obj);
+        
     })
 
     paramItem.appendChild(button);
