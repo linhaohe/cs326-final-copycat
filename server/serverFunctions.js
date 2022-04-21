@@ -39,7 +39,7 @@ export async function closeDB() {
 
 export async function sliceMusicData(res, length) {
     let musicData = await db.readAllMusicData();
-    res.status(200).send(musicData.slice(0, length));
+    res.status(200).send({name:"Music", data:musicData.slice(0, length)});
 }
 
 

@@ -75,7 +75,7 @@ app.put('/account/[0-9]*/profilePassword',(req,res) => {
 });
 
 
-app.get('/music/limit', async (req, res) => {
+app.get('/music', async (req, res) => {
     const limit = req.query.limit;
     await functions.sliceMusicData(res, limit);
 });

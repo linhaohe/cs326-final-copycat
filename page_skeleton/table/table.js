@@ -1,108 +1,139 @@
-// import express from 'express';  
-// import logger from 'morgan'; 
-// import { readFile, writeFile } from 'fs/promises'; 
-// import { appendFile } from 'fs';
 
 
-const csvTable = 'fakeData.csv';
+const fakeData = [{name:"user", data: [{userId : "userId", Name:"userName", Email: "Email"},{userId : 1, Name:"This is a Name", Email: "happyboi@gmail.com"}]}];
 
-// CSV to JSON
-async function tableData() {
-    const response = await fetch(csvTable);
-    const data = await response.text();
-    const result = [];
-    const table = data.split('\n');
-    table.forEach(row => {
-        const cols = row.split(',');
-        const obj = {};
-        cols.forEach((col, i) => {
-            obj[i] = col;
+const fetchMusic = async()=>{
+    const result = await fetch("/music?limit=20",{
+        method: "GET"
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error("Data not found");
+    }).catch(err => {console.error(err)});
+
+    return result;
+}
+
+const addRowToSchema = async(data) =>{
+    const result = await fetch(`/createMusicEntry`,{
+        method: "POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(data)
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error("Data not found");
+    }).catch(err => {console.error(err)});
+}
+
+const tableName = document.getElementById("TableName");
+const tableItem = document.getElementById("TableItem");
+const tbl = document.getElementById('tbl');
+const paramItem = document.getElementById("paramItem");
+
+
+
+
+function renderTableRow(table,headerData, renderType) {
+    const tableRow = document.createElement('tr');
+
+    for(let title in headerData){
+        const tableHeader= document.createElement(renderType);
+        tableHeader.innerHTML = `${headerData[title]}`;
+        tableRow.appendChild(tableHeader);
+    }
+   
+   table.appendChild(tableRow);
+}
+
+function renderAddParam(headerData){
+    paramItem.innerHTML = "";
+    let inputBox = {};
+    for(let title in headerData){
+            const formGroup = document.createElement("div");
+            formGroup.classList.add("form-group");
+            const lable = document.createElement("label");
+            lable.innerHTML = `${title}`;
+            formGroup.appendChild(lable);
+            const input = document.createElement("input");
+            input.classList.add("form-control");
+            inputBox[title] = input;
+            formGroup.appendChild(input);
+            paramItem.appendChild(formGroup);
+    }
+
+    const button = document.createElement("button");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.innerHTML = "Submit";
+    button.addEventListener('click', (event) => {
+        event.preventDefault();
+        let obj = {};
+        for(let item in inputBox){
+            obj[item] = inputBox[item].value;
+        }
+
+    })
+
+    paramItem.appendChild(button);
+
+
+}
+
+
+
+const renderTableByClick = async () =>{
+    tableItem.innerHTML = "";
+    const fetchMusicData = await fetchMusic();
+    let myData = [];
+    myData.push(fetchMusicData);
+    myData.forEach(data => {
+        const tableSechma = document.createElement("div");
+        tableSechma.classList.add("col");
+        tableSechma.classList.add("px-2");
+        tableSechma.classList.add("my-1");
+        tableSechma.innerHTML = `${data.name}`;
+        
+        tableSechma.addEventListener('click', () => {
+            tbl.innerHTML = "";
+            tableName.innerHTML = `${data.name}`;
+
+            const tableData = data.data;
+
+            tableData.forEach((cur,index) => {
+                if(index === 0){
+                    renderTableRow(tbl,cur,"th");
+                    renderAddParam(cur);
+                }else{
+                    renderTableRow(tbl,cur,"td");
+                }
+            });
         });
-        result.push(obj);
-    });
-    return JSON.stringify(result);
+
+        tableItem.appendChild(tableSechma);
+
+    })
+
 }
 
+renderTableByClick();
 
 
 
+const modal = document.getElementById("myModal");
 
-// using POST to add input to the fakeData.csv file
-async function addData(req, res) {
-    try {
-        const data = await tableData();
-        const newData = JSON.parse(data);
-        newData.push(req.body);
-        await writeFile(csvTable, JSON.stringify(newData));
-        res.send(newData);
-    } catch (err) {
-        console.log(err);
-    }
+const btn = document.getElementById("myBtn");
+
+const span = document.getElementsByClassName("close")[0];
+
+btn.onclick = function () {
+    modal.style.display = "block";
 }
 
-
-
-
-// using DELETE to delete data from the fakeData.csv file
-async function deleteData(req, res) {
-    try{
-        const data = await tableData();
-        const newData = JSON.parse(data);
-        newData.splice(req.params.id, 1);
-        await writeFile(csvTable, JSON.stringify(newData));
-        res.send(newData);
-    } catch (err) {
-        console.log(err);
-    }
+span.onclick = function () {
+    modal.style.display = "none";
 }
-
-
-
-
-// using PUT to edit input in the fakeData.csv file
-async function editData(req, res) {
-    try{
-        const data = await tableData();
-        const newData = JSON.parse(data);
-        newData[req.params.id] = req.body;
-        await writeFile(csvTable, JSON.stringify(newData));
-        res.send(newData);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-
-// using GET to get data from the fakeData.csv file
-async function getData(req, res) {
-    try{
-        const data = await tableData();
-        const newData = JSON.parse(data);
-        res.send(newData);
-    } catch (err) {
-        console.log(err);
-    }
-}
-
-
-
-
-app.post('/addInput', async (req, res) => {
-    await addData(req, res);
-});
-
-
-app.get('/getInput', async (req, res) => {
-    await getData(req, res);
-});
-
-
-app.put('/editInput/:id', async (req, res) => {
-    await editData(req, res);
-});
-
-
-app.delete('/deleteInput/:id', async (req, res) => {
-    await deleteData(req, res);
-});
-
