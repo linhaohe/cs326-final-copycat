@@ -30,10 +30,23 @@ const addRowToSchema = async(data) =>{
     }).catch(err => {console.error(err)});
 }
 
+const deleteFromSchema = async(id) =>{
+
+    await fetch(`/music/delete`,{
+        method: "DELETE",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({id:parseInt(id)})
+    }).catch(err => console.error(err));
+}
+
 const tableName = document.getElementById("TableName");
 const tableItem = document.getElementById("TableItem");
 const tbl = document.getElementById('tbl');
 const paramItem = document.getElementById("paramItem");
+
+const deleteItem = document.getElementById("deleteItem");
 
 
 
@@ -85,6 +98,33 @@ function renderAddParam(headerData){
 
 }
 
+function renderDeleteParam(){
+    deleteItem.innerHTML = "";
+    const formGroup = document.createElement("div");
+    formGroup.classList.add("form-group");
+    const lable = document.createElement("label");
+    lable.innerHTML = "ID";
+    formGroup.appendChild(lable);
+    const input = document.createElement("input");
+    input.classList.add("form-control");
+    formGroup.appendChild(input);
+    deleteItem.appendChild(formGroup);
+
+    const button = document.createElement("button");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+    button.innerHTML = "Delete";
+
+    button.addEventListener('click', async (event) => {
+        event.preventDefault();
+        await deleteFromSchema(input.value);
+        
+    })
+
+    deleteItem.appendChild(button);
+
+
+}
 
 
 const renderTableByClick = async () =>{
@@ -109,6 +149,7 @@ const renderTableByClick = async () =>{
                 if(index === 0){
                     renderTableRow(tbl,cur,"th");
                     renderAddParam(cur);
+                    renderDeleteParam();
                 }else{
                     renderTableRow(tbl,cur,"td");
                 }
@@ -137,4 +178,18 @@ btn.onclick = function () {
 
 span.onclick = function () {
     modal.style.display = "none";
+}
+
+const modalDelete = document.getElementById("myModalDelete");
+
+const btnDelete = document.getElementById("myBtnDelete");
+
+const spanDelete = document.getElementsByClassName("closeDelete")[0];
+
+btnDelete.onclick = function () {
+    modalDelete.style.display = "block";
+}
+
+spanDelete.onclick = function () {
+    modalDelete.style.display = "none";
 }
