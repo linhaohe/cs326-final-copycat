@@ -31,3 +31,8 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
 export async function closeDB() {
     await db.close();
 }
+
+export async function sliceMusicData(res, length) {
+    let musicData = await db.readAllMusicData();
+    res.status(200).send(musicData.slice(0, length));
+}
