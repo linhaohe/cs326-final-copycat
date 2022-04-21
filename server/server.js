@@ -29,6 +29,8 @@ app.post('/login', (req, res) => {
 
 app.put('/account/[0-9]*/profile',(req,res) => {
     //update the database by user request
+    res.status(200).send({"status":"success"});
+
 });
 
 // TimeSheet endpoints
@@ -54,10 +56,13 @@ app.get('/timesheet/select', async (req, res) => {
 // End of TimeSheet endpoints
 app.put('/account/[0-9]*/profileImage',(req,res) => {
     //update profile Image the database by user request
+    res.status(200).send({"status":"success"});
 });
 
 app.put('/account/[0-9]*/profilePassword',(req,res) => {
     //update profile Image the database by user request
+    res.status(200).send({"status":"success"});
+
 });
 
 app.listen(port, () => {
