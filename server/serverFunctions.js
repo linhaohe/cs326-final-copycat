@@ -36,3 +36,23 @@ export async function sliceMusicData(res, length) {
     let musicData = await db.readAllMusicData();
     res.status(200).send(musicData.slice(0, length));
 }
+
+
+export async function updateMusicData(res, song_name, artist, genre) {
+    let genreData = await db.updateMusicGenre(song_name, artist, genre);
+    if (genreData) {
+        res.status(200).send(song_name + ' by ' + artist + ' genre updated to ' + genre);
+    } else {
+        res.status(404).send('Song not found');
+    }
+}
+
+
+export async function deleteMusicData(res, song_name, artist) {
+    let deleteData = await db.deleteMusicEntry(song_name, artist);
+    if (deleteData) {
+        res.status(200).send(song_name + ' by ' + artist + ' deleted');
+    } else {
+        res.status(404).send('Song not found');
+    }
+}

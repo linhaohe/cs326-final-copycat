@@ -71,6 +71,18 @@ app.get('/music/limit', async (req, res) => {
     await functions.sliceMusicData(res, limit);
 });
 
+app.put('/music/update', async (req, res) => {
+    const song_name = req.query.song_name;
+    const artist = req.query.artist;
+    const genre = req.query.genre;
+    await functions.updateMusicData(res, song_name, artist, genre);
+});
+
+app.delete('/music/delete', async (req, res) => {
+    const song_name = req.query.song_name;
+    const artist = req.query.artist;
+    await functions.deleteMusicData(res, song_name, artist);
+});
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
