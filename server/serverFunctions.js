@@ -1,11 +1,10 @@
 import {Database} from './dbFunctions.js';
 
-const fakeData = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
-const activityDb = new Database("dburl-here");
-await activityDb.connect();
+const db = new Database("dburl-here");
+await db.connect();
 
 export async function getFakeActivityDatetimes(response, activityType, timeFrom, timeTo) {
-    let activities = await activityDb.readActions(activityType);
+    let activities = await db.readActions(activityType);
     if (activities === undefined) {
         response.status(404).send({"Status": "activity of type " + activityType + " not found!" });
         return;
@@ -30,5 +29,5 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
 }
 
 export async function closeDB() {
-    await activityDb.close();
+    await db.close();
 }
