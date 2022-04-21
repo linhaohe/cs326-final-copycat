@@ -179,6 +179,7 @@ export class Database {
     // Delete a song given the song name and artist
     async deleteMusicEntryById(id) {
         await reloadMusicDB();
+        let initialLength = fakeMusicData.length;
         let results = fakeMusicData.filter((elem) => {
             return elem.id !== id;
         });
