@@ -88,9 +88,11 @@ app.put('/music/update', async (req, res) => {
 });
 
 app.delete('/music/delete', async (req, res) => {
-    const song_name = req.query.song_name;
-    const artist = req.query.artist;
-    await functions.deleteMusicData(res, song_name, artist);
+    // const song_name = req.query.song_name;
+    // const artist = req.query.artist;
+    // await functions.deleteMusicData(res, song_name, artist);
+    const id = req.body.id;
+    await functions.deleteMusicDataById(res, id);
 });
 
 app.listen(port, () => {

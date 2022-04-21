@@ -61,3 +61,12 @@ export async function deleteMusicData(res, song_name, artist) {
         res.status(404).send('Song not found');
     }
 }
+
+export async function deleteMusicDataById(res, id) {
+    let deleteData = await db.deleteMusicEntryById(id);
+    if (deleteData) {
+        res.status(200).send('Song with id ' + id + ' deleted');
+    } else {
+        res.status(404).send('Song not found');
+    }
+}

@@ -104,7 +104,7 @@ Access [Web App Dashboard](https://cs-326-copycat.herokuapp.com/dashboard/) for 
 	+ POST /createMusicEntry
 		+ Creates a music entry in the music table with the given info
 		+ Example: /createMusicEntry
-		body = {song_name:"song", artist:"artist", genre:"music_genre", date_created:"2010/1/1"}
+		body = {song_name:"song", artist:"artist", genre:"music_genre", date_created:"12/31/2010"}
 		+ Example Response: Status 200
 		{id: 123, song_name:"song", artist:"artist", genre:"music_genre", date_created:"2010/1/1"}
 	+ GET /music?limit=10
