@@ -46,9 +46,9 @@ export async function sliceMusicData(res, length) {
 export async function updateMusicData(res, song_name, artist, genre) {
     let genreData = await db.updateMusicGenre(song_name, artist, genre);
     if (genreData) {
-        res.status(200).send(song_name + ' by ' + artist + ' genre updated to ' + genre);
+        res.status(200).send({'status': song_name + ' by ' + artist + ' genre updated to ' + genre});
     } else {
-        res.status(404).send('Song not found');
+        res.status(404).send({'status':'Song not found'});
     }
 }
 
@@ -56,17 +56,17 @@ export async function updateMusicData(res, song_name, artist, genre) {
 export async function deleteMusicData(res, song_name, artist) {
     let deleteData = await db.deleteMusicEntry(song_name, artist);
     if (deleteData) {
-        res.status(200).send(song_name + ' by ' + artist + ' deleted');
+        res.status(200).send({'status': song_name + ' by ' + artist + ' deleted'});
     } else {
-        res.status(404).send('Song not found');
+        res.status(404).send({'status':'Song not found'});
     }
 }
 
 export async function deleteMusicDataById(res, id) {
     let deleteData = await db.deleteMusicEntryById(id);
     if (deleteData) {
-        res.status(200).send('Song with id ' + id + ' deleted');
+        res.status(200).send({'status': 'Song with id ' + id + ' deleted'});
     } else {
-        res.status(404).send('Song not found');
+        res.status(404).send({'status':'Song not found'});
     }
 }
