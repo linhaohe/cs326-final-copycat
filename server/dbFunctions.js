@@ -19,7 +19,7 @@ async function reloadActivityDB() {
 
 async function saveActivityDB() {
     try {
-        const data = JSON.stringify(counters);
+        const data = JSON.stringify(fakeActivityData);
         await writeFile(fakeActivityDataJSON, data, { encoding: 'utf8' });
     } catch (err) {
         console.log(err);
@@ -39,7 +39,7 @@ async function reloadMusicDB() {
 
 async function saveMusicDB() {
     try {
-        const data = JSON.stringify(counters);
+        const data = JSON.stringify(fakeMusicData);
         await writeFile(fakeMusicDataJSON, data, { encoding: 'utf8' });
     } catch (err) {
         console.log(err);
