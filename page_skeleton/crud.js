@@ -1,6 +1,6 @@
 export async function updatePassword(Password,userId){
     const reponse = await fetch(`/account/${userId}/profilePassword`,{
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -14,7 +14,7 @@ export async function updatePassword(Password,userId){
 
 export async function updateProfileImage(imgURL, userId){
     const reponse = await fetch(`/account/${userId}/profileImage`,{
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -28,7 +28,7 @@ export async function updateProfileImage(imgURL, userId){
 
 export async function updateProfile(name,email,address,userId){
     const reponse = await fetch(`/account/${userId}/profile`,{
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
