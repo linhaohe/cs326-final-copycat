@@ -154,8 +154,7 @@ The CRUD action shown here is update. The user informations such as name, email,
 
 #### DELETE
 ![Music Table Delete Screenshot](./milestone2_screenshots/Tables_DELETE.png) <br>
-The CRUD action shown here is DELETE. A music entry is being deleted from the music table. This triggers a delete request to the server that would permanently delete the music entry given the song name and artist name.
-
+The CRUD action shown here is DELETE. A music entry is being deleted from the music table. This triggers a delete request to the server that would permanently delete the music entry with the given id.
 
 
 
