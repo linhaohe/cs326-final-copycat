@@ -33,13 +33,13 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 });
 
-app.post('/createMusicEntry', (req, res) => {
+app.post('/createMusicEntry', async (req, res) => {
     // Creates a music entry
     const song_name = req.body.song_name;
     const artist = req.body.artist;
     const genre = req.body.genre;
     const date_created = req.body.date_created;
-    await(res, song_name, artist, genre, date_created);
+    await functions.createSong(res, song_name, artist, genre, date_created);
 });
 
 // TimeSheet endpoints
