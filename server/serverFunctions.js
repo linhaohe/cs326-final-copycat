@@ -28,6 +28,11 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
     response.status(200).send(results);
 }
 
+export async function createSong(res, song_name, artist, genre, date_created) {
+    const result = db.createMusicEntry(song_name, artist, genre, date_created);
+    res.status(200).send(result);
+}
+
 export async function closeDB() {
     await db.close();
 }
