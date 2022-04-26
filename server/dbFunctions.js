@@ -189,3 +189,90 @@ export class Database {
     }
     
 }
+
+// import 'dotenv/config';
+// import { MongoClient, ServerApiVersion } from 'mongodb';
+
+// // Basic database abstraction
+// export class Database {
+//     constructor(dburl) {
+//         this.dburl = dburl;
+//     }
+
+//     async connect() {
+//         this.client = await MongoClient.connect(this.dburl, {
+//             useNewUrlParser: true,
+//             useUnifiedTopology: true,
+//             serverApi: ServerApiVersion.v1,
+//         });
+
+//         // Get the database.
+//         this.db = this.client.db('database');
+
+//         // Init the database.
+//         await this.init();
+//     }
+
+//     async init() {
+//         musicCollection = this.db.collection('musics');
+//         userCollection = this.db.collection('users');
+//         activityCollection = this.db.collection('activities');
+
+//         this.collections = {
+//             'musics': musicCollection,
+//             'users': userCollection,
+//             'activities': activityCollection
+//         };
+//     }
+
+//     // Close the pool.
+//     async close() {
+//         this.client.close();
+//     }
+
+//     // CREATE an activity instance in the database
+//     async createAction(id, user_id, datetime, action, action_id, table) {
+//         const count = await this.collections['activities'].countDocuments();
+//         // Create new id
+//         let id = count + 1;
+
+//         let newActivity = {
+//             id: id,
+//             user_id: user_id,
+//             date: datetime,
+//             action: action,
+//             action_id: action_id,
+//             table: table
+//         };
+//         await this.collections['activities'].insertOne(newActivity);
+//         return newActivity;
+//     }
+
+//     // READ all actions of a given type from the database.
+//     // Returns an array of JSONs of the given type, type 'all' will return all data in the db
+//     async readActions(actionType) {
+//         let result = await this.collections['activities'].find({actionType: actionType});
+//         return result;
+//     }
+
+//     async createTableEntry(table, entry){
+//         let res = this.collections[table].insertOne(entry);
+//         return res;
+//     }
+
+//     async readTableEntry(table){
+//         let res = this.collections[table].find({});
+//         return res;
+//     }
+
+//     async updateTableEntry(table, from, to){
+//         let res = this.collections[table].update(from, to);
+//         return res;
+//     }
+
+//     async deleteTableEntryById(table, id){
+//         let res = this.collections[table].delete({id: id});
+//         return res;
+//     }
+
+// }

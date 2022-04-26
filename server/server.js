@@ -2,7 +2,7 @@ import express from 'express';
 import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
-import * as ts from './timesheetUtils.js';
+// import * as tm from './timesheetUtils.js';
 import * as auth from './auth.js';
 
 const app = express();
@@ -42,27 +42,27 @@ app.post('/createMusicEntry', async (req, res) => {
     await functions.createSong(res, song_name, artist, genre, date_created);
 });
 
-// TimeSheet endpoints
-// TODO: Add Pagination for all endpoints
+// TimeSheet endpoinfunctions
+// TODO: Add Pagination for all endpoinfunctions
 app.get('/timesheet/all', async (req, res) => {
-    await ts.getAll(req, res);
+    await functions.getTimesheetAll(req, res);
 });
 app.get('/timesheet/add', async (req, res) => {
-    await ts.getAdd(req, res);
+    await functions.getTimesheetAdd(req, res);
 });
 app.get('/timesheet/delete', async (req, res) => {
-    await ts.getDelete(req, res);
+    await functions.getTimesheetDelete(req, res);
 });
 app.get('/timesheet/edit', async (req, res) => {
-    await ts.getEdit(req, res);
+    await functions.getTimesheetEdit(req, res);
 });
 app.get('/timesheet/export', async (req, res) => {
-    await ts.getExport(req, res);
+    await functions.getTimesheetExport(req, res);
 });
 app.get('/timesheet/select', async (req, res) => {
-    await ts.getSelect(req, res);
+    await functions.getTimesheetSelect(req, res);
 });
-// End of TimeSheet endpoints
+// End of TimeSheet endpoinfunctions
 app.put('/account/[0-9]*/profileImage',(req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});

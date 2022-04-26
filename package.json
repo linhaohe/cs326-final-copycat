@@ -7,6 +7,9 @@
   "directories": {
     "doc": "docs"
   },
+  "engines": {
+    "node": "16.11.0"
+  },
   "scripts": {
     "devStart": "nodemon server.js",
     "deploy": "copyfiles data/* page_skeleton/* server/* .env package*.json deploy",
@@ -30,6 +33,7 @@
     "express": "^4.17.3",
     "express-session": "^1.17.2",
     "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "passport": "^0.5.2",
     "passport-local": "^1.0.0"
