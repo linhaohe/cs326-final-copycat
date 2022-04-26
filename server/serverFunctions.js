@@ -1,10 +1,8 @@
-import * as constant from './constant.js';
+import {actionTypes} from './constant.js';
 import {Database} from './dbFunctions.js';
 
-const actions = constant.actions;
 const db = new Database(process.env.DATABASE_URL);
 await db.connect();
-await db.init();
 
 export async function getFakeActivityDatetimes(response, activityType, timeFrom, timeTo) {
     let activities = await db.readActions(activityType);
@@ -77,7 +75,7 @@ export async function deleteMusicDataById(res, id) {
 // Timesheet server functions
 export async function getTimesheetAll(req, res) {
     try {
-        const data = await db.readActions(actions.all);
+        const data = await db.readActions(actionTypes.all);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -88,7 +86,7 @@ export async function getTimesheetAll(req, res) {
 
 export async function getTimesheetAdd(req, res) {
     try {
-        const data = await db.readActions(actions.add);
+        const data = await db.readActions(actionTypes.add);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -99,7 +97,7 @@ export async function getTimesheetAdd(req, res) {
 
 export async function getTimesheetDelete(req, res) {
     try {
-        const data = await db.readActions(actions.delete);
+        const data = await db.readActions(actionTypes.delete);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -110,7 +108,7 @@ export async function getTimesheetDelete(req, res) {
 
 export async function getTimesheetEdit(req, res) {
     try {
-        const data = await db.readActions(actions.edit);
+        const data = await db.readActions(actionTypes.edit);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -121,7 +119,7 @@ export async function getTimesheetEdit(req, res) {
 
 export async function getTimesheetExport(req, res) {
     try {
-        const data = await db.readActions(actions.export);
+        const data = await db.readActions(actionTypes.export);
         res.status(200).json({ data: data });
     }
     catch(e) {
@@ -132,7 +130,7 @@ export async function getTimesheetExport(req, res) {
 
 export async function getTimesheetSelect(req, res) {
     try {
-        const data = await db.readActions(actions.select);
+        const data = await db.readActions(actionTypes.select);
         res.status(200).json({ data: data });
     }
     catch(e) {
