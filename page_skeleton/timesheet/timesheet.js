@@ -142,7 +142,7 @@ function renderRow(tbl, data) {
     tbl.appendChild(row);
 }
 
-document.getElementById('all').addEventListener('click', async () => {
+async function getAllHelper() {
     let data = await getAll();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -152,9 +152,12 @@ document.getElementById('all').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('all').addEventListener('click', async () => {
+    await getAllHelper();
 });
 
-document.getElementById('add').addEventListener('click', async () => {
+async function getAddHelper() {
     let data = await getAdd();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -164,9 +167,12 @@ document.getElementById('add').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('add').addEventListener('click', async () => {
+    await getAddHelper();
 });
 
-document.getElementById('delete').addEventListener('click', async () => {
+async function getDeleteHelper() {
     let data = await getDelete();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -176,9 +182,12 @@ document.getElementById('delete').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('delete').addEventListener('click', async () => {
+    await getDeleteHelper();
 });
 
-document.getElementById('edit').addEventListener('click', async () => {
+async function getEditHelper() {
     let data = await getEdit();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -188,9 +197,12 @@ document.getElementById('edit').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('edit').addEventListener('click', async () => {
+    await getEditHelper();
 });
 
-document.getElementById('export').addEventListener('click', async () => {
+async function getExportHelper() {
     let data = await getExport();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -200,9 +212,12 @@ document.getElementById('export').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('export').addEventListener('click', async () => {
+    await getExportHelper();
 });
 
-document.getElementById('select').addEventListener('click', async () => {
+async function getSelectHelper() {
     let data = await getSelect();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -212,6 +227,9 @@ document.getElementById('select').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('select').addEventListener('click', async () => {
+    await getSelectHelper();
 });
 
 // MODAL SECTION
@@ -281,12 +299,11 @@ lhour.onclick = function() {
 
 // TAB SECTION
 let count = 0;
-function createTab(tagName) {
+async function createTab(tagName) {
     const all = document.getElementById(tagName);
     const ts = document.getElementById("tab-section");
     all.onclick = function() {
         const comp = document.createElement("div");
-        comp.setAttribute('id','tab_'+count);
         comp.classList.add("tab");
         comp.classList.add("col-md-2");
         
@@ -295,14 +312,43 @@ function createTab(tagName) {
         const text = document.createTextNode(name.join(''));
         comp.appendChild(text);
 
+        comp.setAttribute('id', tagName+'_'+count);
+
         const cancel = document.createElement("span");
         cancel.classList.add("close-tab");
         cancel.appendChild(document.createTextNode("x"));
 
         // Close tab
         cancel.onclick = function() {
-            const close = document.getElementById('tab_'+count);
+            const close = document.getElementById(tagName+'_'+count);
             close.outerHTML = '';
+        }
+
+        // Click on tab
+        comp.onclick = async function() {
+            switch (tagName) {
+                case 'all':
+                    await getAllHelper();
+                    break;
+                case 'add':
+                    await getAddHelper();
+                    break;
+                case 'delete':
+                    await getDeleteHelper();
+                    break;
+                case 'edit':
+                    await getEditHelper();
+                    break;
+                case 'export':
+                    await getExportHelper();
+                    break;
+                case 'select':
+                    await getSelectHelper();
+                    break;
+                default:
+                    await getAllHelper();
+                    break;
+            }
         }
 
         comp.appendChild(cancel);
@@ -310,7 +356,7 @@ function createTab(tagName) {
         ts.appendChild(comp);
     }
 }
-createTab("all");
+await createTab("all");
 createTab("add");
 createTab("delete");
 createTab("edit");
