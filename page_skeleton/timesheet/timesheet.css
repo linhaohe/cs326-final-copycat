@@ -35,6 +35,10 @@
     color: black;
     float: right;
     font-weight: bold;
+
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
   }
   
   .close:hover,
@@ -78,5 +82,11 @@
 }
 
 .tab {
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+.tab-width {
+  width: 100px;
 }

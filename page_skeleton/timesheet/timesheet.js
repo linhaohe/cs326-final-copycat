@@ -142,7 +142,7 @@ function renderRow(tbl, data) {
     tbl.appendChild(row);
 }
 
-document.getElementById('all').addEventListener('click', async () => {
+async function getAllHelper() {
     let data = await getAll();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -152,9 +152,12 @@ document.getElementById('all').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('all').addEventListener('click', async () => {
+    await getAllHelper();
 });
 
-document.getElementById('add').addEventListener('click', async () => {
+async function getAddHelper() {
     let data = await getAdd();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -164,9 +167,12 @@ document.getElementById('add').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('add').addEventListener('click', async () => {
+    await getAddHelper();
 });
 
-document.getElementById('delete').addEventListener('click', async () => {
+async function getDeleteHelper() {
     let data = await getDelete();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -176,9 +182,12 @@ document.getElementById('delete').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('delete').addEventListener('click', async () => {
+    await getDeleteHelper();
 });
 
-document.getElementById('edit').addEventListener('click', async () => {
+async function getEditHelper() {
     let data = await getEdit();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -188,9 +197,12 @@ document.getElementById('edit').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('edit').addEventListener('click', async () => {
+    await getEditHelper();
 });
 
-document.getElementById('export').addEventListener('click', async () => {
+async function getExportHelper() {
     let data = await getExport();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -200,9 +212,12 @@ document.getElementById('export').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('export').addEventListener('click', async () => {
+    await getExportHelper();
 });
 
-document.getElementById('select').addEventListener('click', async () => {
+async function getSelectHelper() {
     let data = await getSelect();
     data = data.data;
     const tbl = document.getElementById('tbl');
@@ -212,4 +227,150 @@ document.getElementById('select').addEventListener('click', async () => {
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+document.getElementById('select').addEventListener('click', async () => {
+    await getSelectHelper();
 });
+
+// MODAL SECTION
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("filter");
+var cancel = document.getElementById("cancel");
+var apply = document.getElementById("apply");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+cancel.onclick = function() {
+    modal.style.display = "none";
+}
+apply.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+const cmonth = document.getElementById("cmonth");
+cmonth.onclick = function() {
+    const now = new Date();
+    const fmonth = document.getElementById("fmonth");
+    const tmonth = document.getElementById("tmonth");
+
+    fmonth.value = now.getMonth();
+    tmonth.value = now.getMonth() + 1;
+}
+
+const today = document.getElementById("today");
+today.onclick = function() {
+    const now = new Date();
+    const fday = document.getElementById("fday");
+    const tday = document.getElementById("tday");
+
+    fday.value = now.getDate() - 1;
+    tday.value = now.getDate();
+}
+
+const lhour = document.getElementById("lhour");
+lhour.onclick = function() {
+    const now = new Date();
+    const fhour = document.getElementById("fhour");
+    const thour = document.getElementById("thour");
+
+    fhour.value = now.getHours() - 1;
+    thour.value = now.getHours();
+}
+// END MODAL SECTION
+
+// TAB SECTION
+let count = 0;
+async function createTab(tagName) {
+    const all = document.getElementById(tagName);
+    const ts = document.getElementById("tab-section");
+    all.onclick = function() {
+
+        const outer = document.createElement("div");
+        outer.classList.add("d-flex");
+        outer.classList.add("flex-row");
+        outer.classList.add("tab-width");
+
+        const comp = document.createElement("span");
+        comp.classList.add("tab");
+        comp.classList.add("p-2");
+
+        const name = tagName.split('');
+        name[0] = name[0].toUpperCase();
+        const text = document.createTextNode(name.join(''));
+        comp.appendChild(text);
+
+        comp.setAttribute('id', tagName+'_'+count);
+
+        const cancel = document.createElement("span");
+        cancel.classList.add("close-tab");
+        cancel.classList.add("p-2");
+        cancel.appendChild(document.createTextNode("x"));
+
+        // Close tab
+        cancel.onclick = function() {
+            const close = document.getElementById(tagName+'_'+count);
+            outer.outerHTML = '';
+
+            const tbl = document.getElementById('tbl');
+            tbl.innerHTML = '';
+            renderHeader(tbl);
+        }
+
+        // Click on tab
+        comp.onclick = async function() {
+            switch (tagName) {
+                case 'all':
+                    await getAllHelper();
+                    break;
+                case 'add':
+                    await getAddHelper();
+                    break;
+                case 'delete':
+                    await getDeleteHelper();
+                    break;
+                case 'edit':
+                    await getEditHelper();
+                    break;
+                case 'export':
+                    await getExportHelper();
+                    break;
+                case 'select':
+                    await getSelectHelper();
+                    break;
+                default:
+                    await getAllHelper();
+                    break;
+            }
+        }
+
+        outer.appendChild(comp);
+        outer.appendChild(cancel);
+        ts.appendChild(outer);
+    }
+}
+await createTab("all");
+createTab("add");
+createTab("delete");
+createTab("edit");
+createTab("export");
+createTab("select");
+// END TAB SECTION
