@@ -303,10 +303,16 @@ async function createTab(tagName) {
     const all = document.getElementById(tagName);
     const ts = document.getElementById("tab-section");
     all.onclick = function() {
-        const comp = document.createElement("div");
+
+        const outer = document.createElement("div");
+        outer.classList.add("d-flex");
+        outer.classList.add("flex-row");
+        outer.classList.add("tab-width");
+
+        const comp = document.createElement("span");
         comp.classList.add("tab");
-        comp.classList.add("col-md-2");
-        
+        comp.classList.add("p-2");
+
         const name = tagName.split('');
         name[0] = name[0].toUpperCase();
         const text = document.createTextNode(name.join(''));
@@ -316,12 +322,17 @@ async function createTab(tagName) {
 
         const cancel = document.createElement("span");
         cancel.classList.add("close-tab");
+        cancel.classList.add("p-2");
         cancel.appendChild(document.createTextNode("x"));
 
         // Close tab
         cancel.onclick = function() {
             const close = document.getElementById(tagName+'_'+count);
-            close.outerHTML = '';
+            outer.outerHTML = '';
+
+            const tbl = document.getElementById('tbl');
+            tbl.innerHTML = '';
+            renderHeader(tbl);
         }
 
         // Click on tab
@@ -351,9 +362,9 @@ async function createTab(tagName) {
             }
         }
 
-        comp.appendChild(cancel);
-
-        ts.appendChild(comp);
+        outer.appendChild(comp);
+        outer.appendChild(cancel);
+        ts.appendChild(outer);
     }
 }
 await createTab("all");
