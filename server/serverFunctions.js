@@ -29,8 +29,8 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
     response.status(200).send(results);
 }
 
-export async function createSong(res, song_name, artist, genre, date_created) {
-    const result = db.createMusicEntry(song_name, artist, genre, date_created);
+export async function createEntryForTable(res, table, item) {
+    const result = db.createTableEntry(table, item);
     res.status(200).send(result);
 }
 
@@ -38,10 +38,15 @@ export async function closeDB() {
     await db.close();
 }
 
-export async function sliceMusicData(res, length) {
-    let musicData = await db.readAllMusicData();
-    res.status(200).send({name:"Music", data:musicData.slice(0, length)});
+export async function readAllTablesAndEntries(res, limit) {
+    let data = await db.readAllTablesAndEntries();
+    res.status(200).send(data);
 }
+
+// export async function sliceMusicData(res, length) {
+//     let musicData = await db.readAllMusicData();
+//     res.status(200).send({name:"Music", data:musicData.slice(0, length)});
+// }
 
 
 export async function updateMusicData(res, song_name, artist, genre) {
@@ -64,7 +69,7 @@ export async function deleteMusicData(res, song_name, artist) {
 }
 
 export async function deleteMusicDataById(res, id) {
-    let deleteData = await db.deleteMusicEntryById(id);
+    let deleteData = await db.deleteTableEntryById("musics",id);
     if (deleteData) {
         res.status(200).send({'status': 'Song with id ' + id + ' deleted'});
     } else {

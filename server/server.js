@@ -33,15 +33,6 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 });
 
-app.post('/createMusicEntry', async (req, res) => {
-    // Creates a music entry
-    const song_name = req.body.song_name;
-    const artist = req.body.artist;
-    const genre = req.body.genre;
-    const date_created = req.body.date_created;
-    await functions.createSong(res, song_name, artist, genre, date_created);
-});
-
 // TimeSheet endpoinfunctions
 // TODO: Add Pagination for all endpoinfunctions
 app.get('/timesheet/all', async (req, res) => {
@@ -75,22 +66,26 @@ app.put('/account/[0-9]*/profilePassword',(req,res) => {
 });
 
 
-app.get('/music', async (req, res) => {
-    const limit = req.query.limit;
-    await functions.sliceMusicData(res, limit);
+app.post('/createTableEntry', async (req, res) => {
+    // Creates a music entry
+    const table = req.query.table;
+    await functions.createEntryForTable(res, table, req.body);
 });
 
-app.put('/music/update', async (req, res) => {
+app.get('/readAllTables', async (req, res) => {
+    const limit = req.query.limit;
+    // await functions.sliceMusicData(res, limit);
+    await functions.readAllTablesAndEntries(res, limit);
+});
+
+app.put('/UpdateTableEntry', async (req, res) => {
     const song_name = req.query.song_name;
     const artist = req.query.artist;
     const genre = req.query.genre;
     await functions.updateMusicData(res, song_name, artist, genre);
 });
 
-app.delete('/music/delete', async (req, res) => {
-    // const song_name = req.query.song_name;
-    // const artist = req.query.artist;
-    // await functions.deleteMusicData(res, song_name, artist);
+app.delete('/deleteTableEntry', async (req, res) => {
     const id = req.body.id;
     await functions.deleteMusicDataById(res, id);
 });
