@@ -215,19 +215,19 @@ export class Database {
     }
 
     async init() {
-        let musicCollection = this.db.collection('musics');
-        let userCollection = this.db.collection('users');
-        let actionCollection = this.db.collection('actions');
+        let musicCollection = this.db.collection('Musics');
+        let userCollection = this.db.collection('Users');
+        let actionCollection = this.db.collection('Actions');
 
         this.collections = {
-            'musics': musicCollection,
-            'users': userCollection,
-            'actions': actionCollection
+            'Musics': musicCollection,
+            'Users': userCollection,
+            'Actions': actionCollection
         };
 
         // Insert row titles
         this.rowHeaders = [];
-        this.rowHeaders["musics"] = {
+        this.rowHeaders["Musics"] = {
             "id": "id", 
             "song_name": "song_name", 
             "artist": "artist", 
@@ -235,14 +235,14 @@ export class Database {
             "date_created": "date_created"
         };
 
-        this.rowHeaders["users"] = {
+        this.rowHeaders["Users"] = {
             "user_id": "user_id", 
             "username": "username", 
             "access_authority": "access_authority",
             "date_created": "date_created"
         };
 
-        this.rowHeaders["actions"] = {
+        this.rowHeaders["Actions"] = {
             "id": "id",
             "action_id": "action_id",
             "action": "action",
@@ -259,7 +259,7 @@ export class Database {
 
     // CREATE an activity instance in the database
     async createAction(unusedID, user_id, datetime, action, action_id, table) {
-        const count = await this.collections['actions'].countDocuments();
+        const count = await this.collections['Actions'].countDocuments();
 
         // Create new id
         let id = count + 1;
@@ -272,7 +272,7 @@ export class Database {
             user_id: user_id,
             date: datetime,
         };
-        await this.collections['actions'].insertOne(newActivity);
+        await this.collections['Actions'].insertOne(newActivity);
         return newActivity;
     }
 
@@ -280,16 +280,16 @@ export class Database {
     // Returns an array of JSONs of the given type, type 'all' will return all data in the db
     async readActions(actionType) {
         if (actionType != actionTypes.all) {
-            let results = await this.collections['actions'].find({ actionType: actionType });
+            let results = await this.collections['Actions'].find({ actionType: actionType });
             return results;
         }
-        let results = await this.collections['actions'].find({});
+        let results = await this.collections['Actions'].find({});
         return results;
     }
 
     // CRUD actions for tables other than the actions table
     async createTableEntry(table, entry) {
-        if (table === 'actions') {
+        if (table === 'Actions') {
             // let res = await this.createAction(entry);
             // return res;
         }
@@ -306,7 +306,7 @@ export class Database {
             let tableData = Array(await this.collections[tableName].find({}));
             tableData.unshift(this.rowHeaders[tableName]);
             results.push({
-                name: tableName.charAt(0).toUpperCase() + tableName.slice(1),
+                name: tableName,
                 data: tableData,
             });
         });
@@ -332,7 +332,7 @@ export class Database {
     }
 
     async updateTableEntry(table, from, to) {
-        if (! table in this.collections) {
+        if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
         let res = this.collections[table].update(from, to);
@@ -340,7 +340,7 @@ export class Database {
     }
 
     async deleteTableEntryById(table, id) {
-        if (! table in this.collections) {
+        if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
         let res = this.collections[table].delete({ id: id });
