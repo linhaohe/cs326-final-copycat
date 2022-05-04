@@ -2,7 +2,6 @@ import express from 'express';
 import logger from 'morgan';
 
 import * as functions from './serverFunctions.js';
-// import * as tm from './timesheetUtils.js';
 import * as auth from './auth.js';
 
 const app = express();
@@ -25,6 +24,10 @@ app.post('/signup', (req, res) => {
 })
 app.post('/login', (req, res) => {
     auth.login(req, res);
+});
+app.get('/authenticate', auth.authenticate, (req, res) => {
+    console.log(req.user);
+    res.status(200).send(req.user);
 });
 
 app.put('/account/[0-9]*/profile',(req,res) => {
