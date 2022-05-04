@@ -142,16 +142,18 @@ function renderRow(tbl, data) {
     tbl.appendChild(row);
 }
 
-async function getAllHelper() {
-    let data = await getAll();
+function renderTable(data) {
     data = data.data;
     const tbl = document.getElementById('tbl');
     tbl.innerHTML = '';
     renderHeader(tbl);
-    // TODO: Add Pagination
     for (let i = 0; i < 10; i++) {
         renderRow(tbl, data[i]);
     }
+}
+async function getAllHelper() {
+    let data = await getAll();
+    renderTable(data);
 }
 document.getElementById('all').addEventListener('click', async () => {
     await getAllHelper();
@@ -159,14 +161,7 @@ document.getElementById('all').addEventListener('click', async () => {
 
 async function getAddHelper() {
     let data = await getAdd();
-    data = data.data;
-    const tbl = document.getElementById('tbl');
-    tbl.innerHTML = '';
-    renderHeader(tbl);
-    // TODO: Add Pagination
-    for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
-    }
+    renderTable(data);
 }
 document.getElementById('add').addEventListener('click', async () => {
     await getAddHelper();
@@ -174,14 +169,7 @@ document.getElementById('add').addEventListener('click', async () => {
 
 async function getDeleteHelper() {
     let data = await getDelete();
-    data = data.data;
-    const tbl = document.getElementById('tbl');
-    tbl.innerHTML = '';
-    renderHeader(tbl);
-    // TODO: Add Pagination
-    for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
-    }
+    renderTable(data);
 }
 document.getElementById('delete').addEventListener('click', async () => {
     await getDeleteHelper();
@@ -189,14 +177,7 @@ document.getElementById('delete').addEventListener('click', async () => {
 
 async function getEditHelper() {
     let data = await getEdit();
-    data = data.data;
-    const tbl = document.getElementById('tbl');
-    tbl.innerHTML = '';
-    renderHeader(tbl);
-    // TODO: Add Pagination
-    for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
-    }
+    renderTable(data);
 }
 document.getElementById('edit').addEventListener('click', async () => {
     await getEditHelper();
@@ -204,14 +185,7 @@ document.getElementById('edit').addEventListener('click', async () => {
 
 async function getExportHelper() {
     let data = await getExport();
-    data = data.data;
-    const tbl = document.getElementById('tbl');
-    tbl.innerHTML = '';
-    renderHeader(tbl);
-    // TODO: Add Pagination
-    for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
-    }
+    renderTable(data);
 }
 document.getElementById('export').addEventListener('click', async () => {
     await getExportHelper();
@@ -219,14 +193,7 @@ document.getElementById('export').addEventListener('click', async () => {
 
 async function getSelectHelper() {
     let data = await getSelect();
-    data = data.data;
-    const tbl = document.getElementById('tbl');
-    tbl.innerHTML = '';
-    renderHeader(tbl);
-    // TODO: Add Pagination
-    for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
-    }
+    renderTable(data);
 }
 document.getElementById('select').addEventListener('click', async () => {
     await getSelectHelper();
