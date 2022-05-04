@@ -193,6 +193,7 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import {actionTypes} from "./constant.js";
+import { faker } from '@faker-js/faker';
 
 // Basic database abstraction
 export class Database {
@@ -224,6 +225,20 @@ export class Database {
             'Users': userCollection,
             'Actions': actionCollection
         };
+
+        // Insert fake data if none exists
+        if ((await musicCollection.countDocuments()) === 0) {
+            for (let i = 0; i < 20; i++) {
+                let data = {
+                    "_id": i + 1,
+                    "song_name": faker.random.word() + ' ' + faker.random.word(),
+                    "artist": faker.name.firstName() + ' ' + faker.name.lastName(),
+                    "genre": faker.music.genre(),
+                    "date_created": faker.date.past(10).toISOString().split('T')[0],
+                };
+                musicCollection.insertOne(data);
+            }
+        }
 
         // Insert row titles
         this.rowHeaders = [];
@@ -301,16 +316,26 @@ export class Database {
     }
 
     async readAllTablesAndEntries() {
-        let results = [];
-        Object.keys(this.collections).forEach( async tableName => {
-            let tableData = Array(await this.collections[tableName].find({}));
-            tableData.unshift(this.rowHeaders[tableName]);
-            results.push({
-                name: tableName,
-                data: tableData,
-            });
-        });
+        let results = await this.readAllTablesAndEntriesWithLimit(-1);
         return results;
+    }
+
+    async readAllTablesAndEntriesWithLimit(limit) {
+        let result = [];
+        for(let tableName in this.collections) {
+            let tableData = await this.collections[tableName].find({}).toArray();
+            tableData = tableData.sort((a, b) => a._id - b._id);
+            if (limit >= 0) {
+                tableData = tableData.slice(0, limit);
+            }
+            tableData.unshift(this.rowHeaders[tableName]);
+            const table = {
+                "name": tableName,
+                "data": tableData
+            };
+            result.push(table);
+        }
+        return result;
     }
 
     async readTableEntry(table) {

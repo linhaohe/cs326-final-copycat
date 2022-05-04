@@ -38,8 +38,9 @@ export async function closeDB() {
     await db.close();
 }
 
-export async function readAllTablesAndEntries(res, limit) {
-    let data = await db.readAllTablesAndEntries();
+export async function readAllTableEntries(res, limit) {
+    let data = await db.readAllTablesAndEntriesWithLimit(limit);
+    console.log(data);
     res.status(200).send(data);
 }
 
@@ -47,7 +48,6 @@ export async function readAllTablesAndEntries(res, limit) {
 //     let musicData = await db.readAllMusicData();
 //     res.status(200).send({name:"Music", data:musicData.slice(0, length)});
 // }
-
 
 export async function updateMusicData(res, song_name, artist, genre) {
     let genreData = await db.updateMusicGenre(song_name, artist, genre);

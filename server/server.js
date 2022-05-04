@@ -72,10 +72,10 @@ app.post('/createTableEntry', async (req, res) => {
     await functions.createEntryForTable(res, table, req.body);
 });
 
-app.get('/readAllTables', async (req, res) => {
+app.get('/music', async (req, res) => {
     const limit = req.query.limit;
     // await functions.sliceMusicData(res, limit);
-    await functions.readAllTablesAndEntries(res, limit);
+    await functions.readAllTableEntries(res, limit);
 });
 
 app.put('/UpdateTableEntry', async (req, res) => {
@@ -87,7 +87,7 @@ app.put('/UpdateTableEntry', async (req, res) => {
 
 app.delete('/deleteTableEntry', async (req, res) => {
     const id = req.body.id;
-    await functions.deleteMusicDataById(res, id);
+    await functions.deleteTableEntryById(res, 'Musics', id);
 });
 
 app.listen(port, () => {
