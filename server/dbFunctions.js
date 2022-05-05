@@ -257,6 +257,26 @@ export class Database {
         this.client.close();
     }
 
+    async createUser(username, access_authority, date_created) {
+        const count = await this.collections['Users'].countDocuments();
+        let id = count + 1;
+
+        let newUser = {
+            user_id: id,
+            username: username,
+            access_authority: access_authority,
+            date_created: date_created
+        }
+
+        await this.collections['Users'].insertOne(newUser);
+        return newUser;
+    }
+
+    async readUser(username) {
+        let results = await this.collections['Users'].find({ username: username });
+        return results;
+    }
+
     // CREATE an activity instance in the database
     async createAction(unusedID, user_id, datetime, action, action_id, table) {
         const count = await this.collections['Actions'].countDocuments();
