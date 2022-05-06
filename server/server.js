@@ -1,12 +1,10 @@
 import express from 'express';
 import logger from 'morgan';
+import { authenticate } from './auth.js';
 
 import * as functions from './serverFunctions.js';
 // import * as tm from './timesheetUtils.js';
 import * as auth from './auth.js';
-import { authenticate } from 'passport';
-// import pkg from 'passport';
-// const { authenticate } = pkg;
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,7 +22,7 @@ app.get('/activities', async (request, response) => {
 });
 
 app.post('/signup', (req, res) => {
-    auth.signup(req, res);
+    functions.signup(req, res);
 })
 app.post('/login', (req, res) => {
     auth.login(req, res);
@@ -38,21 +36,22 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 // TimeSheet endpoinfunctions
 app.get('/timesheet/all', authenticate, async (req, res) => {
+    console.log(req.user);
     await functions.getTimesheetAll(req, res);
 });
-app.get('/timesheet/add', authenticate, async (req, res) => {
+app.get('/timesheet/add', async (req, res) => {
     await functions.getTimesheetAdd(req, res);
 });
-app.get('/timesheet/delete', authenticate, async (req, res) => {
+app.get('/timesheet/delete', async (req, res) => {
     await functions.getTimesheetDelete(req, res);
 });
-app.get('/timesheet/edit', authenticate, async (req, res) => {
+app.get('/timesheet/edit', async (req, res) => {
     await functions.getTimesheetEdit(req, res);
 });
-app.get('/timesheet/export', authenticate, async (req, res) => {
+app.get('/timesheet/export', async (req, res) => {
     await functions.getTimesheetExport(req, res);
 });
-app.get('/timesheet/select', authenticate, async (req, res) => {
+app.get('/timesheet/select', async (req, res) => {
     await functions.getTimesheetSelect(req, res);
 });
 // End of TimeSheet endpoinfunctions
