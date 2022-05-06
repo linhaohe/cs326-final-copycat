@@ -143,3 +143,19 @@ export async function getTimesheetSelect(req, res) {
         res.status(404).json({ error: 'Failed to retrieve data' });
     }
 }
+
+export async function signup(req, res) {
+    const params = req.body;
+    try {
+        const data = await db.createUser(
+            params.username,
+            params.password,
+            params.access_authority,
+            params.date_created);
+        res.status(200).json({ data: data });
+    }
+    catch(e) {
+        console.log(e);
+        res.status(404).json({ error: 'Failed to create user' });
+    }
+}
