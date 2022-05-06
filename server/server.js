@@ -5,6 +5,8 @@ import * as functions from './serverFunctions.js';
 // import * as tm from './timesheetUtils.js';
 import * as auth from './auth.js';
 import { authenticate } from 'passport';
+// import pkg from 'passport';
+// const { authenticate } = pkg;
 
 const app = express();
 const port = process.env.PORT || 3000;
