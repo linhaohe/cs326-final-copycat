@@ -1,4 +1,4 @@
-export const actions = {
+export const actionTypes = {
     all: 'all',
     add: 'add',
     delete: 'delete',
