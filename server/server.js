@@ -1,5 +1,6 @@
 import express from 'express';
 import logger from 'morgan';
+import { authenticate } from './auth.js';
 
 import * as functions from './serverFunctions.js';
 // import * as tm from './timesheetUtils.js';
@@ -34,7 +35,8 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 });
 
 // TimeSheet endpoinfunctions
-app.get('/timesheet/all', async (req, res) => {
+app.get('/timesheet/all', authenticate, async (req, res) => {
+    console.log(req.user);
     await functions.getTimesheetAll(req, res);
 });
 app.get('/timesheet/add', async (req, res) => {
