@@ -36,22 +36,21 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 // TimeSheet endpoinfunctions
 app.get('/timesheet/all', authenticate, async (req, res) => {
-    console.log(req.user);
     await functions.getTimesheetAll(req, res);
 });
-app.get('/timesheet/add', async (req, res) => {
+app.get('/timesheet/add', authenticate, async (req, res) => {
     await functions.getTimesheetAdd(req, res);
 });
-app.get('/timesheet/delete', async (req, res) => {
+app.get('/timesheet/delete', authenticate, async (req, res) => {
     await functions.getTimesheetDelete(req, res);
 });
-app.get('/timesheet/edit', async (req, res) => {
+app.get('/timesheet/edit', authenticate, async (req, res) => {
     await functions.getTimesheetEdit(req, res);
 });
-app.get('/timesheet/export', async (req, res) => {
+app.get('/timesheet/export', authenticate, async (req, res) => {
     await functions.getTimesheetExport(req, res);
 });
-app.get('/timesheet/select', async (req, res) => {
+app.get('/timesheet/select', authenticate, async (req, res) => {
     await functions.getTimesheetSelect(req, res);
 });
 // End of TimeSheet endpoinfunctions
