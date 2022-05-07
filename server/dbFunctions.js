@@ -109,7 +109,7 @@ export class Database {
     }
 
     // CREATE an activity instance in the database
-    async createAction(user_id, datetime, action, action_id, table) {
+    async createAction(user_id, datetime, action, action_id, table, element_id) {
         const count = await this.collections['Actions'].countDocuments();
 
         // Create new id
@@ -120,6 +120,7 @@ export class Database {
             action: action,
             action_id: action_id,
             table: table,
+            element_id: element_id,
             user_id: user_id,
             date: datetime,
         };

@@ -4,9 +4,9 @@ import {Database} from './dbFunctions.js';
 const db = new Database(process.env.DATABASE_URL);
 await db.connect();
 
-async function createActivity(userEmail, actionType, table){
+async function createActivity(userEmail, actionType, table, element_id){
     const userId = await db.getUserId(userEmail);
-    await db.createAction(userId, JSON.stringify(new Date()), actionType, actionIds[actionType], table);
+    await db.createAction(userId, JSON.stringify(new Date()), actionType, actionIds[actionType], table, element_id);
 }
 
 export async function getActivityDatetimes(response, activityType, timeFrom, timeTo) {
@@ -28,7 +28,6 @@ export async function getActivityDatetimes(response, activityType, timeFrom, tim
         return;
     }
     activities.forEach( elem => {
-        console.log(elem.action);
         results[elem.action].push(new Date(JSON.parse(elem.date)));
     });
     response.status(200).send(results);
@@ -58,7 +57,7 @@ export async function createEntryForTable(res, userEmail, table, item) {
         item._id = parseInt(item.id);
         delete item.id;
         const result = await db.createTableEntry(table, item);
-        await createActivity(userEmail, actionTypes.add, table);
+        await createActivity(userEmail, actionTypes.add, table, item._id);
         res.status(200).send(result);
     } catch (e) {
         console.log(e);
@@ -81,7 +80,7 @@ export async function updateTableEntry(res, userEmail, table, from, to) {
         from._id = from.id;
         delete from.id;
         let result = await db.updateTableEntry(table, from, to);
-        await createActivity(userEmail, actionTypes.edit, table);
+        await createActivity(userEmail, actionTypes.edit, table, from._id);
         res.status(200).send({'status': 'success', 'result': result});   
     } catch (e) {
         console.log(e)
@@ -93,7 +92,7 @@ export async function updateTableEntry(res, userEmail, table, from, to) {
 export async function deleteTableEntryById(res, userEmail, table, id) {
     try {
         let result = await db.deleteTableEntryById(table, id);
-        await createActivity(userEmail, actionTypes.delete, table);
+        await createActivity(userEmail, actionTypes.delete, table, id);
         res.status(200).send({'status': 'success', 'result': result});   
     } catch (e) {
         console.log(e)
