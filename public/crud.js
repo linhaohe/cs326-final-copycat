@@ -62,10 +62,10 @@ export async function readActivityDatetimes(activityType, timeFrom, timeTo) {
 // }
 
 // document.getElementById('submit')?.addEventListener('click', async () => {
-//     const username = document.getElementById('username').value;
+//     const email = document.getElementById('email').value;
 //     const password = document.getElementById('password').value;
 
-//     const res = await login(username, password);
+//     const res = await login(email, password);
 //     // const body = document.getElementsByTagName('body')[0].innerHTML = res;
 //     document.body.innerHTML = res;
 

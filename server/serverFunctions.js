@@ -60,7 +60,8 @@ export async function readAllTableEntries(res, limit) {
 //     res.status(200).send({name:"Music", data:musicData.slice(0, length)});
 // }
 export async function validateUser(data) {
-    let user = await db.readUser(data.username);
+    let user = await db.readUser(data.email);
+    console.log(user.password);
     if (user && user.password === data.password) {
         return true;
     }
