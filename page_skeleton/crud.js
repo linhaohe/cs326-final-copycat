@@ -66,10 +66,7 @@ document.getElementById('submit')?.addEventListener('click', async () => {
     const password = document.getElementById('password').value;
 
     const res = await login(username, password);
-    const body = document.getElementsByTagName('body')[0].innerHTML = res;
+    // const body = document.getElementsByTagName('body')[0].innerHTML = res;
 
-    // if (accessToken && accessToken.accessToken) {
-    //     localStorage.setItem('accessToken', accessToken.accessToken);
-    //     window.location.replace("http://localhost:3000/dashboard");
-    // }
+    window.location.replace("http://localhost:3000/dashboard");
 });
