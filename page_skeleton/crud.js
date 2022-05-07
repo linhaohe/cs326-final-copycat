@@ -58,14 +58,15 @@ async function login(username, password) {
         body: JSON.stringify({ username: username, password: password})
     });
 
-    // return response.json();
+    return response.text();
 }
 
 document.getElementById('submit')?.addEventListener('click', async () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    await login(username, password);
+    const res = await login(username, password);
+    const body = document.getElementsByTagName('body')[0].innerHTML = res;
 
     // if (accessToken && accessToken.accessToken) {
     //     localStorage.setItem('accessToken', accessToken.accessToken);

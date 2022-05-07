@@ -46,7 +46,7 @@ app.get('/logout', (req, res) => {
     res.redirect('/'); // back to login
   });
 
-app.get('/activities', async (request, response) => {
+app.get('/activities', checkLoggedIn, async (request, response) => {
     const query = request.query;
     const activityType = query.activityType;
     const timeFrom = JSON.parse(query.timeFrom);
@@ -67,7 +67,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-app.put('/account/[0-9]*/profile',(req,res) => {
+app.put('/account/[0-9]*/profile', checkLoggedIn,(req,res) => {
     //update the database by user request
     res.status(200).send({"status":"success"});
 
@@ -75,86 +75,56 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 // TimeSheet endpoinfunctions
 app.get('/timesheet/all', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetAll(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetAll(req, res);
 });
 app.get('/timesheet/add', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetAdd(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetAdd(req, res);
 });
 app.get('/timesheet/delete', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetDelete(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetDelete(req, res);
 });
 app.get('/timesheet/edit', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetEdit(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetEdit(req, res);
 });
 app.get('/timesheet/export', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetExport(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetExport(req, res);
 });
 app.get('/timesheet/select', checkLoggedIn, async (req, res) => {
-    if (await functions.validateUser(req.user)) {
-        await functions.getTimesheetSelect(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
+    await functions.getTimesheetSelect(req, res);
 });
 // End of TimeSheet endpoinfunctions
-app.put('/account/[0-9]*/profileImage',(req,res) => {
+app.put('/account/[0-9]*/profileImage', checkLoggedIn,(req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});
 });
 
-app.put('/account/[0-9]*/profilePassword',(req,res) => {
+app.put('/account/[0-9]*/profilePassword', checkLoggedIn,(req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});
 
 });
 
 
-app.post('/createTableEntry', async (req, res) => {
+app.post('/createTableEntry', checkLoggedIn, async (req, res) => {
     // Creates a music entry
     const table = req.query.table;
     await functions.createEntryForTable(res, table, req.body);
 });
 
-app.get('/readAllTables', async (req, res) => {
+app.get('/readAllTables', checkLoggedIn, async (req, res) => {
     const limit = req.query.limit;
     // await functions.sliceMusicData(res, limit);
     await functions.readAllTablesAndEntries(res, limit);
 });
 
-app.put('/UpdateTableEntry', async (req, res) => {
+app.put('/UpdateTableEntry', checkLoggedIn, async (req, res) => {
     const song_name = req.query.song_name;
     const artist = req.query.artist;
     const genre = req.query.genre;
     await functions.updateMusicData(res, song_name, artist, genre);
 });
 
-app.delete('/deleteTableEntry', async (req, res) => {
+app.delete('/deleteTableEntry', checkLoggedIn, async (req, res) => {
     const id = req.body.id;
     await functions.deleteMusicDataById(res, id);
 });
