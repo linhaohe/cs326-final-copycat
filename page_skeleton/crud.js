@@ -48,3 +48,27 @@ export async function readActivityDatetimes(activityType, timeFrom, timeTo) {
     const data = await response.json();
     return data
 }
+
+async function login(username, password) {
+    const response = await fetch(`/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: username, password: password})
+    });
+
+    return response.json();
+}
+
+document.getElementById('submit')?.addEventListener('click', async () => {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const accessToken = await login(username, password);
+
+    if (accessToken && accessToken.accessToken) {
+        localStorage.setItem('accessToken', accessToken.accessToken);
+        window.location.replace("http://localhost:3000/dashboard");
+    }
+});

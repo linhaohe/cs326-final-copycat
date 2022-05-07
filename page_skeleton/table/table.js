@@ -3,7 +3,7 @@
 const fakeData = [{name:"user", data: [{userId : "userId", Name:"userName", Email: "Email"},{userId : 1, Name:"This is a Name", Email: "happyboi@gmail.com"}]}];
 
 const fetchMusic = async()=>{
-    const result = await fetch("/music?limit=20",{
+    const result = await fetch("/readAllTables?limit=20",{
         method: "GET"
     }).then(res => {
         if(res.ok){
@@ -129,9 +129,9 @@ function renderDeleteParam(){
 
 const renderTableByClick = async () =>{
     tableItem.innerHTML = "";
-    const fetchMusicData = await fetchMusic();
-    let myData = [];
-    myData.push(fetchMusicData);
+    const myData = await fetchMusic();
+    // let myData = [];
+    // myData.push(fetchMusicData);
     myData.forEach(data => {
         const tableSechma = document.createElement("div");
         tableSechma.classList.add("col");

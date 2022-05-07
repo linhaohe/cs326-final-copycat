@@ -48,6 +48,15 @@ export async function readAllTableEntries(res, limit) {
 //     let musicData = await db.readAllMusicData();
 //     res.status(200).send({name:"Music", data:musicData.slice(0, length)});
 // }
+export async function validateUser(data) {
+    let user = await db.readUser(data.username);
+    if (user && user.password === data.password) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 export async function updateMusicData(res, song_name, artist, genre) {
     let genreData = await db.updateMusicGenre(song_name, artist, genre);
@@ -141,5 +150,21 @@ export async function getTimesheetSelect(req, res) {
     catch(e) {
         console.log(e);
         res.status(404).json({ error: 'Failed to retrieve data' });
+    }
+}
+
+export async function signup(req, res) {
+    const params = req.body;
+    try {
+        const data = await db.createUser(
+            params.username,
+            params.password,
+            params.access_authority,
+            params.date_created);
+        res.status(200).json({ data: data });
+    }
+    catch(e) {
+        console.log(e);
+        res.status(404).json({ error: 'Failed to create user' });
     }
 }

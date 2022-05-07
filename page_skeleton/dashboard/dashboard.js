@@ -34,20 +34,6 @@ let graphCharts = activityGraphIDs.map((graphID, index) => {
     });
 });
 
-const ctx = document.getElementById('pieGraph').getContext('2d');
-const pieGraph = new Chart(ctx, {
-    type: 'pie',
-    data: {
-        labels: ['Add','Delete','Edit','Export','Select'],
-        datasets: [{
-            data: [1,2,3,4,5],
-            borderColor: graphColors.slice(1,6),
-            borderWidth: 2,
-            backgroundColor: graphColors.slice(1,6),
-        }]
-    }
-});
-
 const activityTypes = ['all', 'add', 'delete', 'edit', 'export', 'select'];
 const timeFrames = ['year', 'month', 'week', 'day', 'hour'];
 const twelveYearsAgo = () => new Date(new Date().setFullYear(new Date().getFullYear() - 12));
@@ -61,9 +47,6 @@ async function updateLineGraph(activityIndex, activityType, timeIndex) {
     let timeFrom = JSON.stringify(pastTimes[timeIndex]());
     let timeTo = JSON.stringify(new Date());
     const data = await crud.readActivityDatetimes(activityType, timeFrom, timeTo);
-    if (activityType === 'all') {
-        updatePieGraph(data);
-    }
     let parseFunction = (strDate) => {};
     let incrementTime = (strTime) => {};
     switch (timeFrames[timeIndex]) {
@@ -156,9 +139,9 @@ function updatePieGraph(data) {
     pieGraph.update();
 }
 
-function setPrimaryButton(activityType, timeFrameToSet) {
+function setPrimaryButton(timeFrameToSet) {
     timeFrames.forEach( timeFrame => {
-        const button = document.getElementById(`${activityType}-${timeFrame}`);
+        const button = document.getElementById(`${timeFrame}`);
         if(timeFrame === timeFrameToSet) {
             button.classList = "btn btn-primary";
         } else {
@@ -167,14 +150,18 @@ function setPrimaryButton(activityType, timeFrameToSet) {
     });
 }
 
+async function updateAllLineGraphs(timeFrame, timeIndex) {
+    activityTypes.forEach( async (activityType, activityIndex) => {
+        await updateLineGraph(activityIndex, activityType, timeIndex);
+        setPrimaryButton(timeFrame);
+    });
+}
+
 // Add Event Listner to all buttons
-activityTypes.forEach( (activityType, activityIndex) => {
-    timeFrames.forEach( (timeFrame, timeIndex) => {
-        const button = document.getElementById(`${activityType}-${timeFrame}`);
-        button.addEventListener("click", async () => {
-            await updateLineGraph(activityIndex, activityType, timeIndex);
-            setPrimaryButton(activityType, timeFrame);
-        });
+timeFrames.forEach( (timeFrame, timeIndex) => {
+    const button = document.getElementById(`${timeFrame}`);
+    button.addEventListener("click", async () => {
+        await updateAllLineGraphs(timeFrame, timeIndex);
     });
 });
 
@@ -182,7 +169,29 @@ activityTypes.forEach( (activityType, activityIndex) => {
 async function initDashboard() {
     activityTypes.forEach( async (activityType, index) => {
         await updateLineGraph(index, activityType, 0);
+        // setPrimaryButton(activityType, "year");
     });
 }
 
+// Adjust graphs based on window size
+function adjustGraphPositions() {
+    let allGraphDivs = document.getElementsByClassName("graph");
+    let classes = "";
+    if (window.matchMedia("(min-width: 1300px)").matches) {
+        classes = "graph col-4";
+    } else if (window.matchMedia("(min-width: 768px)").matches){
+        classes = "graph col-6";
+    } else {
+        classes = "graph col-12";
+    }
+    let length = allGraphDivs.length;
+    for (let i = 0; i < length; i++) {
+        allGraphDivs[i].classList=classes;
+    }
+}
+
+// window.onresize(adjustGraphPositions);
+window.addEventListener('resize', adjustGraphPositions);
+
 initDashboard();
+adjustGraphPositions();
