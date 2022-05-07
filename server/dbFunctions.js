@@ -72,6 +72,7 @@ export class Database {
             "action_id": "action_id",
             "action": "action",
             "table": "table",
+            "element_id": "element_id",
             "user_id": "user_id",
             "date": "datetime"
         };
