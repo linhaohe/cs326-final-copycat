@@ -133,23 +133,23 @@ app.put('/account/[0-9]*/profilePassword', checkLoggedIn,(req,res) => {
 app.post('/createTableEntry', checkLoggedIn, async (req, res) => {
     // Creates a music entry
     const table = req.query.table;
-    await functions.createEntryForTable(res, table, req.body);
+    await functions.createEntryForTable(res, req.user, table, req.body);
 });
 
 app.get('/readAllTables', checkLoggedIn, async (req, res) => {
     const limit = req.query.limit;
-    await functions.readAllTableEntries(res, limit);
+    await functions.readAllTableEntries(res, req.user, limit);
 });
 
 app.put('/updateTableEntry', checkLoggedIn, async (req, res) => {
     const table = req.query.table;
-    await functions.updateTableEntry(res, table, req.body.from, req.body.to);
+    await functions.updateTableEntry(res, req.user, table, req.body.from, req.body.to);
 });
 
 app.delete('/deleteTableEntry', checkLoggedIn, async (req, res) => {
     const table = req.query.table;
     const id = req.body.id;
-    await functions.deleteTableEntryById(res, table, id);
+    await functions.deleteTableEntryById(res, req.user, table, id);
 });
 
 app.get('/*', checkLoggedIn, (req, res) =>
