@@ -1,17 +1,50 @@
 import express from 'express';
 import logger from 'morgan';
-import { authenticate } from './auth.js';
+import auth from './auth.js';
+import expressSession from 'express-session';
 
 import * as functions from './serverFunctions.js';
 // import * as tm from './timesheetUtils.js';
-import * as auth from './auth.js';
+// import * as auth from './auth.js';
+
+const sessionConfig = {
+    // set this encryption key in Heroku config (never in GitHub)!
+    secret: process.env.ACCESS_TOKEN_SECRET || 'SECRET',
+    resave: false,
+    saveUninitialized: false,
+  };
 
 const app = express();
 const port = process.env.PORT || 3000;
+app.use(expressSession(sessionConfig));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use('/', express.static('page_skeleton'));
+auth.configure(app);
+
+function checkLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+      // If we are authenticated, run the next route.
+      next();
+    } else {
+      // Otherwise, redirect to the login page.
+      res.redirect('/');
+    }
+}
+
+app.post(
+    '/login',
+    auth.authenticate('local', {
+      successRedirect: '/dashboard',
+      failureRedirect: '/',
+    })
+);
+
+app.get('/logout', (req, res) => {
+    req.logout(); // Logs us out!
+    res.redirect('/'); // back to login
+  });
 
 app.get('/activities', async (request, response) => {
     const query = request.query;
@@ -41,7 +74,7 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 });
 
 // TimeSheet endpoinfunctions
-app.get('/timesheet/all', authenticate, async (req, res) => {
+app.get('/timesheet/all', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetAll(req, res);
     }
@@ -49,7 +82,7 @@ app.get('/timesheet/all', authenticate, async (req, res) => {
         res.status(401).send({"error": "unauthorized"});
     }
 });
-app.get('/timesheet/add', authenticate, async (req, res) => {
+app.get('/timesheet/add', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetAdd(req, res);
     }
@@ -57,7 +90,7 @@ app.get('/timesheet/add', authenticate, async (req, res) => {
         res.status(401).send({"error": "unauthorized"});
     }
 });
-app.get('/timesheet/delete', authenticate, async (req, res) => {
+app.get('/timesheet/delete', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetDelete(req, res);
     }
@@ -65,7 +98,7 @@ app.get('/timesheet/delete', authenticate, async (req, res) => {
         res.status(401).send({"error": "unauthorized"});
     }
 });
-app.get('/timesheet/edit', authenticate, async (req, res) => {
+app.get('/timesheet/edit', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetEdit(req, res);
     }
@@ -73,7 +106,7 @@ app.get('/timesheet/edit', authenticate, async (req, res) => {
         res.status(401).send({"error": "unauthorized"});
     }
 });
-app.get('/timesheet/export', authenticate, async (req, res) => {
+app.get('/timesheet/export', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetExport(req, res);
     }
@@ -81,7 +114,7 @@ app.get('/timesheet/export', authenticate, async (req, res) => {
         res.status(401).send({"error": "unauthorized"});
     }
 });
-app.get('/timesheet/select', authenticate, async (req, res) => {
+app.get('/timesheet/select', checkLoggedIn, async (req, res) => {
     if (await functions.validateUser(req.user)) {
         await functions.getTimesheetSelect(req, res);
     }

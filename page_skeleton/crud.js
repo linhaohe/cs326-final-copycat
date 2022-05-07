@@ -58,17 +58,17 @@ async function login(username, password) {
         body: JSON.stringify({ username: username, password: password})
     });
 
-    return response.json();
+    // return response.json();
 }
 
 document.getElementById('submit')?.addEventListener('click', async () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const accessToken = await login(username, password);
+    await login(username, password);
 
-    if (accessToken && accessToken.accessToken) {
-        localStorage.setItem('accessToken', accessToken.accessToken);
-        window.location.replace("http://localhost:3000/dashboard");
-    }
+    // if (accessToken && accessToken.accessToken) {
+    //     localStorage.setItem('accessToken', accessToken.accessToken);
+    //     window.location.replace("http://localhost:3000/dashboard");
+    // }
 });
