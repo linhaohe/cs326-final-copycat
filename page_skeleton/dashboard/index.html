@@ -65,141 +65,50 @@
       <h1 class="border-bottom border-dark">Dashboard</h1>
       <div class="container-fluid">
         <div class="row">
-          <div class="col-8">
-            <!-- Row 1 -->
-            <br>
+          <div class="col-12">
             <div class="container-fluid">
               <div class="row">
-                <h2 class="col-6">All Actions</h2>
-                <div class="col-6">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="all-year">Year</button>
-                    <button type="button" class="btn btn-secondary" id="all-month">Month</button>
-                    <button type="button" class="btn btn-secondary" id="all-week">Week</button>
-                    <button type="button" class="btn btn-secondary" id="all-day">Day</button>
-                    <button type="button" class="btn btn-secondary" id="all-hour">Hour</button>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="row">
-                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-                <canvas id="allActivitiesLineGraph"></canvas>
-              </div>
-            </div>
-
-            <!-- Row 2 -->
-            <br>
-            <div class="container-fluid">
-              <div class="row">
-                <h2 class="col-6">Add</h2>
-                <div class="col-6">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="add-year">Year</button>
-                    <button type="button" class="btn btn-secondary" id="add-month">Month</button>
-                    <button type="button" class="btn btn-secondary" id="add-week">Week</button>
-                    <button type="button" class="btn btn-secondary" id="add-day">Day</button>
-                    <button type="button" class="btn btn-secondary" id="add-hour">Hour</button>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="row">
-                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-                <canvas id="activitiesGraphAdd"></canvas>
-              </div>
-            </div>
-
-            <!-- Row 3 -->
-            <br>
-            <div class="container-fluid">
-              <div class="row">
-                <h2 class="col-6">Delete</h2>
-                <div class="col-6">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="delete-year">Year</button>
-                    <button type="button" class="btn btn-secondary" id="delete-month">Month</button>
-                    <button type="button" class="btn btn-secondary" id="delete-week">Week</button>
-                    <button type="button" class="btn btn-secondary" id="delete-day">Day</button>
-                    <button type="button" class="btn btn-secondary" id="delete-hour">Hour</button>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="row">
-                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-                <canvas id="activitiesGraphDelete"></canvas>
-              </div>
-            </div>
-            
-            <!-- Row 4 -->
-            <br>
-            <div class="container-fluid">
-              <div class="row">
-                <h2 class="col-6">Edit</h2>
-                <div class="col-6">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="edit-year">Year</button>
-                    <button type="button" class="btn btn-secondary" id="edit-month">Month</button>
-                    <button type="button" class="btn btn-secondary" id="edit-week">Week</button>
-                    <button type="button" class="btn btn-secondary" id="edit-day">Day</button>
-                    <button type="button" class="btn btn-secondary" id="edit-hour">Hour</button>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="row">
-                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-                <canvas id="activitiesGraphEdit"></canvas>
-              </div>
-            </div>
-
-            <!-- Row 5 -->
-            <br>
-            <div class="container-fluid">
-              <div class="row">
-                <h2 class="col-6">Export</h2>
-                <div class="col-6">
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-primary" id="export-year">Year</button>
-                    <button type="button" class="btn btn-secondary" id="export-month">Month</button>
-                    <button type="button" class="btn btn-secondary" id="export-week">Week</button>
-                    <button type="button" class="btn btn-secondary" id="export-day">Day</button>
-                    <button type="button" class="btn btn-secondary" id="export-hour">Hour</button>
-                  </div>
-                </div>
-                <br>
-              </div>
-              <div class="row">
-                <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-                <canvas id="activitiesGraphExport"></canvas>
-              </div>
-            </div>
-
-            <!-- Row 6 -->
-            <br>
-            <div class="container-fluid"></div>
-            <div class="row">
-              <h2 class="col-6">Select</h2>
-              <div class="col-6">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                  <button type="button" class="btn btn-primary" id="select-year">Year</button>
-                  <button type="button" class="btn btn-secondary" id="select-month">Month</button>
-                  <button type="button" class="btn btn-secondary" id="select-week">Week</button>
-                  <button type="button" class="btn btn-secondary" id="select-day">Day</button>
-                  <button type="button" class="btn btn-secondary" id="select-hour">Hour</button>
+                  <button type="button" class="btn btn-primary" id="year">Year</button>
+                  <button type="button" class="btn btn-secondary" id="month">Month</button>
+                  <button type="button" class="btn btn-secondary" id="week">Week</button>
+                  <button type="button" class="btn btn-secondary" id="day">Day</button>
+                  <button type="button" class="btn btn-secondary" id="hour">Hour</button>
                 </div>
               </div>
-              <br>
+              <div class="row">
+                <div class="graph col-4">
+                  <hr>
+                  <h2>All Actions</h2>
+                  <canvas id="allActivitiesLineGraph"></canvas>
+                </div>
+                <div class="graph col-4">
+                  <hr>
+                  <h2>Add</h2>
+                  <canvas id="activitiesGraphAdd"></canvas>
+                </div>
+                <div class="graph col-4">
+                  <hr>
+                  <h2>Delete</h2>
+                  <canvas id="activitiesGraphDelete"></canvas>
+                </div>
+                <div class="graph col-4">
+                  <hr>
+                  <h2>Edit</h2>
+                  <canvas id="activitiesGraphEdit"></canvas>
+                </div>
+                <div class="graph col-4">
+                  <hr>
+                  <h2>Export</h2>
+                  <canvas id="activitiesGraphExport"></canvas>
+                </div>
+                <div class="graph col-4">
+                  <hr>
+                  <h2>Select</h2>
+                  <canvas id="activitiesGraphSelect"></canvas>
+                </div>
+              </div>
             </div>
-            <div class="row">
-              <!-- <img src="./misc/Line Graph.png" class="img-fluid" alt="Image Place holder for a line graph"> -->
-              <canvas id="activitiesGraphSelect"></canvas>
-            </div>
-          </div>
-          <div class="col-4" id="pieChart">
-            <!-- <img src="./misc/Pie Chart.png" class="img-fluid" alt="Image Place holder for a pie chart"> -->
-            <canvas id="pieGraph"></canvas>
           </div>
         </div>
       </div>

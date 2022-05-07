@@ -20,6 +20,8 @@ app.use(expressSession(sessionConfig));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// app.use('/', checkLoggedIn);
 app.use('/', express.static('page_skeleton'));
 auth.configure(app);
 
@@ -51,7 +53,7 @@ app.get('/activities', checkLoggedIn, async (request, response) => {
     const activityType = query.activityType;
     const timeFrom = JSON.parse(query.timeFrom);
     const timeTo = JSON.parse(query.timeTo);
-    await functions.getFakeActivityDatetimes(response, activityType, timeFrom, timeTo);
+    await functions.getActivityDatetimes(response, activityType, timeFrom, timeTo);
 });
 
 app.post('/signup', (req, res) => {
@@ -113,20 +115,18 @@ app.post('/createTableEntry', checkLoggedIn, async (req, res) => {
 
 app.get('/readAllTables', checkLoggedIn, async (req, res) => {
     const limit = req.query.limit;
-    // await functions.sliceMusicData(res, limit);
-    await functions.readAllTablesAndEntries(res, limit);
+    await functions.readAllTableEntries(res, limit);
 });
 
-app.put('/UpdateTableEntry', checkLoggedIn, async (req, res) => {
-    const song_name = req.query.song_name;
-    const artist = req.query.artist;
-    const genre = req.query.genre;
-    await functions.updateMusicData(res, song_name, artist, genre);
+app.put('/updateTableEntry', checkLoggedIn, async (req, res) => {
+    const table = req.query.table;
+    await functions.updateTableEntry(res, table, req.body.from, req.body.to);
 });
 
 app.delete('/deleteTableEntry', checkLoggedIn, async (req, res) => {
+    const table = req.query.table;
     const id = req.body.id;
-    await functions.deleteMusicDataById(res, id);
+    await functions.deleteTableEntryById(res, table, id);
 });
 
 app.listen(port, () => {

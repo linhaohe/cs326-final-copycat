@@ -3,7 +3,7 @@
 const fakeData = [{name:"user", data: [{userId : "userId", Name:"userName", Email: "Email"},{userId : 1, Name:"This is a Name", Email: "happyboi@gmail.com"}]}];
 
 const fetchMusic = async()=>{
-    const result = await fetch("/music?limit=20",{
+    const result = await fetch("/readAllTables?limit=20",{
         method: "GET"
     }).then(res => {
         if(res.ok){
@@ -15,8 +15,8 @@ const fetchMusic = async()=>{
     return result;
 }
 
-const addRowToSchema = async(data) =>{
-    const result = await fetch(`/createMusicEntry`,{
+const addRowToSchema = async(schema, data) =>{
+    const result = await fetch(`/createTableEntry?table=${schema}`,{
         method: "POST",
         headers:{
             "Content-Type":"application/json"
@@ -30,9 +30,9 @@ const addRowToSchema = async(data) =>{
     }).catch(err => {console.error(err)});
 }
 
-const deleteFromSchema = async(id) =>{
+const deleteFromSchema = async(schema, id) =>{
 
-    await fetch(`/music/delete`,{
+    await fetch(`/deleteTableEntry?table=${schema}`,{
         method: "DELETE",
         headers:{
             "Content-Type":"application/json"
@@ -63,7 +63,7 @@ function renderTableRow(table,headerData, renderType) {
    table.appendChild(tableRow);
 }
 
-function renderAddParam(headerData){
+function renderAddParam(schema, headerData){
     paramItem.innerHTML = "";
     let inputBox = {};
     for(let title in headerData){
@@ -89,7 +89,9 @@ function renderAddParam(headerData){
         for(let item in inputBox){
             obj[item] = inputBox[item].value;
         }
-        await addRowToSchema(obj);
+        await addRowToSchema(schema, obj);
+        await renderTableByClick();
+        document.getElementById(schema).click();
         
     })
 
@@ -98,7 +100,7 @@ function renderAddParam(headerData){
 
 }
 
-function renderDeleteParam(){
+function renderDeleteParam(schema){
     deleteItem.innerHTML = "";
     const formGroup = document.createElement("div");
     formGroup.classList.add("form-group");
@@ -117,7 +119,9 @@ function renderDeleteParam(){
 
     button.addEventListener('click', async (event) => {
         event.preventDefault();
-        await deleteFromSchema(input.value);
+        await deleteFromSchema(schema, input.value);
+        await renderTableByClick();
+        document.getElementById(schema).click();
         
     })
 
@@ -129,17 +133,18 @@ function renderDeleteParam(){
 
 const renderTableByClick = async () =>{
     tableItem.innerHTML = "";
-    const fetchMusicData = await fetchMusic();
-    let myData = [];
-    myData.push(fetchMusicData);
+    const myData = await fetchMusic();
+    // let myData = [];
+    // myData.push(fetchMusicData);
     myData.forEach(data => {
-        const tableSechma = document.createElement("div");
-        tableSechma.classList.add("col");
-        tableSechma.classList.add("px-2");
-        tableSechma.classList.add("my-1");
-        tableSechma.innerHTML = `${data.name}`;
+        const tableSchema = document.createElement("div");
+        tableSchema.classList.add("col");
+        tableSchema.classList.add("px-2");
+        tableSchema.classList.add("my-1");
+        tableSchema.id = `${data.name}`;
+        tableSchema.innerHTML = `${data.name}`;
         
-        tableSechma.addEventListener('click', () => {
+        tableSchema.addEventListener('click', () => {
             tbl.innerHTML = "";
             tableName.innerHTML = `${data.name}`;
 
@@ -148,15 +153,15 @@ const renderTableByClick = async () =>{
             tableData.forEach((cur,index) => {
                 if(index === 0){
                     renderTableRow(tbl,cur,"th");
-                    renderAddParam(cur);
-                    renderDeleteParam();
+                    renderAddParam(data.name, cur);
+                    renderDeleteParam(data.name);
                 }else{
                     renderTableRow(tbl,cur,"td");
                 }
             });
         });
 
-        tableItem.appendChild(tableSechma);
+        tableItem.appendChild(tableSchema);
 
     })
 

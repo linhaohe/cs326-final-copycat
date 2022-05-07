@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import {actionTypes} from "./constant.js";
+import { faker } from '@faker-js/faker';
 
 // Basic database abstraction
 export class Database {
@@ -33,6 +34,20 @@ export class Database {
             'Actions': actionCollection
         };
 
+        // Insert fake data if none exists
+        if ((await musicCollection.countDocuments()) === 0) {
+            for (let i = 0; i < 20; i++) {
+                let data = {
+                    "_id": i + 1,
+                    "song_name": faker.random.word() + ' ' + faker.random.word(),
+                    "artist": faker.name.firstName() + ' ' + faker.name.lastName(),
+                    "genre": faker.music.genre(),
+                    "date_created": faker.date.past(10).toISOString().split('T')[0],
+                };
+                musicCollection.insertOne(data);
+            }
+        }
+
         // Insert row titles
         this.rowHeaders = [];
         this.rowHeaders["Musics"] = {
@@ -44,7 +59,7 @@ export class Database {
         };
 
         this.rowHeaders["Users"] = {
-            "user_id": "user_id", 
+            "id": "id", 
             "username": "username",
             "password": "password",
             "access_authority": "access_authority",
@@ -71,7 +86,7 @@ export class Database {
         let id = count + 1;
 
         let newUser = {
-            user_id: id,
+            _id: id,
             username: username,
             password: password,
             access_authority: access_authority ? access_authority : 'placeholder',
@@ -110,10 +125,10 @@ export class Database {
     // Returns an array of JSONs of the given type, type 'all' will return all data in the db
     async readActions(actionType) {
         if (actionType != actionTypes.all) {
-            let results = await this.collections['Actions'].find({ actionType: actionType });
+            let results = await this.collections['Actions'].find({ actionType: actionType }).toArray();
             return results;
         }
-        let results = await this.collections['Actions'].find({});
+        let results = await this.collections['Actions'].find({}).toArray();
         return results;
     }
 
@@ -126,28 +141,38 @@ export class Database {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].insertOne(entry);
+        let res = await this.collections[table].insertOne(entry);
         return res;
     }
 
     async readAllTablesAndEntries() {
-        let results = [];
-        Object.keys(this.collections).forEach( async tableName => {
-            let tableData = Array(await this.collections[tableName].find({}));
-            tableData.unshift(this.rowHeaders[tableName]);
-            results.push({
-                name: tableName,
-                data: tableData,
-            });
-        });
+        let results = await this.readAllTablesAndEntriesWithLimit(-1);
         return results;
+    }
+
+    async readAllTablesAndEntriesWithLimit(limit) {
+        let result = [];
+        for(let tableName in this.collections) {
+            let tableData = await this.collections[tableName].find({}).toArray();
+            tableData = tableData.sort((a, b) => a._id - b._id);
+            if (limit >= 0) {
+                tableData = tableData.slice(0, limit);
+            }
+            tableData.unshift(this.rowHeaders[tableName]);
+            const table = {
+                "name": tableName,
+                "data": tableData
+            };
+            result.push(table);
+        }
+        return result;
     }
 
     async readTableEntry(table) {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].find({});
+        let res = await this.collections[table].find({}).toArray();
         res.unshift(this.rowHeaders[table]);
         return {"status": "success", "data": res};
     }
@@ -156,7 +181,7 @@ export class Database {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].find(filter);
+        let res = await this.collections[table].find(filter).toArray();
         res.unshift(this.rowHeaders[table]);
         return {"status": "success", "data": res};
     }
@@ -165,16 +190,16 @@ export class Database {
         if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
-        let res = this.collections[table].update(from, to);
-        return {"status": "success"};
+        let res = await this.collections[table].updateOne(from, {$set:to}, { upsert: false });
+        return res;
     }
 
     async deleteTableEntryById(table, id) {
         if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
-        let res = this.collections[table].delete({ id: id });
-        return {"status": "success"};
+        let res = await this.collections[table].deleteOne({ _id: id });
+        return res;
     }
 
 }
