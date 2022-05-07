@@ -83,7 +83,7 @@ export class Database {
     }
 
     async readUser(username) {
-        let results = await this.collections['Users'].find({ username: username });
+        let results = await this.collections['Users'].findOne({ username: username });
         return results;
     }
 

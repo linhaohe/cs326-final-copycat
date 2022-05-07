@@ -65,7 +65,10 @@ document.getElementById('submit')?.addEventListener('click', async () => {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
 
-    const accessToken = JSON.stringify(await login(username, password));
-    localStorage.setItem('accessToken', accessToken);
-    window.location.replace("http://localhost:3000/dashboard");
+    const accessToken = await login(username, password);
+
+    if (accessToken && accessToken.accessToken) {
+        localStorage.setItem('accessToken', accessToken.accessToken);
+        window.location.replace("http://localhost:3000/dashboard");
+    }
 });
