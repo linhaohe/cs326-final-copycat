@@ -36,8 +36,7 @@
     "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "passport": "^0.5.2",
-    "passport-local": "^1.0.0",
-    "@faker-js/faker": "^6.1.2"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.1.2",

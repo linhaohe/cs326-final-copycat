@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { MongoClient, ServerApiVersion } from 'mongodb';
 import {actionTypes} from "./constant.js";
-import { faker } from '@faker-js/faker';
+// import { faker } from '@faker-js/faker';
 
 // Basic database abstraction
 export class Database {
@@ -35,18 +35,18 @@ export class Database {
         };
 
         // Insert fake data if none exists
-        if ((await musicCollection.countDocuments()) === 0) {
-            for (let i = 0; i < 20; i++) {
-                let data = {
-                    "_id": i + 1,
-                    "song_name": faker.random.word() + ' ' + faker.random.word(),
-                    "artist": faker.name.firstName() + ' ' + faker.name.lastName(),
-                    "genre": faker.music.genre(),
-                    "date_created": faker.date.past(10).toISOString().split('T')[0],
-                };
-                musicCollection.insertOne(data);
-            }
-        }
+        // if ((await musicCollection.countDocuments()) === 0) {
+        //     for (let i = 0; i < 20; i++) {
+        //         let data = {
+        //             "_id": i + 1,
+        //             "song_name": faker.random.word() + ' ' + faker.random.word(),
+        //             "artist": faker.name.firstName() + ' ' + faker.name.lastName(),
+        //             "genre": faker.music.genre(),
+        //             "date_created": faker.date.past(10).toISOString().split('T')[0],
+        //         };
+        //         musicCollection.insertOne(data);
+        //     }
+        // }
 
         // Insert row titles
         this.rowHeaders = [];
