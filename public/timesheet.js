@@ -124,7 +124,7 @@ function renderRow(tbl, data) {
     row.appendChild(cell);
 
     cell = document.createElement('td');
-    cell.innerText = '\"place holder\"';
+    cell.innerText = data.table;
     row.appendChild(cell);
 
     cell = document.createElement('td');
@@ -132,7 +132,7 @@ function renderRow(tbl, data) {
     row.appendChild(cell);
 
     cell = document.createElement('td');
-    cell.innerText = data.id;
+    cell.innerText = data.element_id ? data.element_id : '';
     row.appendChild(cell);
 
     cell = document.createElement('td');
@@ -148,7 +148,9 @@ function renderTable(data) {
     tbl.innerHTML = '';
     renderHeader(tbl);
     for (let i = 0; i < 10; i++) {
-        renderRow(tbl, data[i]);
+        if (data[i]){
+            renderRow(tbl, data[i]);
+        }
     }
 }
 async function getAllHelper() {
