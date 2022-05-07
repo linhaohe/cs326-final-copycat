@@ -15,8 +15,8 @@ const fetchMusic = async()=>{
     return result;
 }
 
-const addRowToSchema = async(data) =>{
-    const result = await fetch(`/createMusicEntry`,{
+const addRowToSchema = async(schema, data) =>{
+    const result = await fetch(`/createTableEntry?table=${schema}`,{
         method: "POST",
         headers:{
             "Content-Type":"application/json"
@@ -30,9 +30,9 @@ const addRowToSchema = async(data) =>{
     }).catch(err => {console.error(err)});
 }
 
-const deleteFromSchema = async(id) =>{
+const deleteFromSchema = async(schema, id) =>{
 
-    await fetch(`/music/delete`,{
+    await fetch(`/music/delete?table=${schema}`,{
         method: "DELETE",
         headers:{
             "Content-Type":"application/json"
@@ -63,7 +63,7 @@ function renderTableRow(table,headerData, renderType) {
    table.appendChild(tableRow);
 }
 
-function renderAddParam(headerData){
+function renderAddParam(schema, headerData){
     paramItem.innerHTML = "";
     let inputBox = {};
     for(let title in headerData){
@@ -89,7 +89,7 @@ function renderAddParam(headerData){
         for(let item in inputBox){
             obj[item] = inputBox[item].value;
         }
-        await addRowToSchema(obj);
+        await addRowToSchema(schema, obj);
         
     })
 
@@ -98,7 +98,7 @@ function renderAddParam(headerData){
 
 }
 
-function renderDeleteParam(){
+function renderDeleteParam(schema){
     deleteItem.innerHTML = "";
     const formGroup = document.createElement("div");
     formGroup.classList.add("form-group");
@@ -117,7 +117,7 @@ function renderDeleteParam(){
 
     button.addEventListener('click', async (event) => {
         event.preventDefault();
-        await deleteFromSchema(input.value);
+        await deleteFromSchema(schema, input.value);
         
     })
 
@@ -148,8 +148,8 @@ const renderTableByClick = async () =>{
             tableData.forEach((cur,index) => {
                 if(index === 0){
                     renderTableRow(tbl,cur,"th");
-                    renderAddParam(cur);
-                    renderDeleteParam();
+                    renderAddParam(data.name, cur);
+                    renderDeleteParam(data.name);
                 }else{
                     renderTableRow(tbl,cur,"td");
                 }

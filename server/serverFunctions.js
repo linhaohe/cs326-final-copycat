@@ -4,7 +4,7 @@ import {Database} from './dbFunctions.js';
 const db = new Database(process.env.DATABASE_URL);
 await db.connect();
 
-export async function getFakeActivityDatetimes(response, activityType, timeFrom, timeTo) {
+export async function getActivityDatetimes(response, activityType, timeFrom, timeTo) {
     let activities = await db.readActions(activityType);
     if (activities === undefined) {
         response.status(404).send({"Status": "activity of type " + activityType + " not found!" });
@@ -30,8 +30,15 @@ export async function getFakeActivityDatetimes(response, activityType, timeFrom,
 }
 
 export async function createEntryForTable(res, table, item) {
-    const result = db.createTableEntry(table, item);
-    res.status(200).send(result);
+    try {
+        item._id = id;
+        delete item.id;
+        const result = db.createTableEntry(table, item);
+        res.status(200).send(result);
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({'status': 'failure'});
+    }
 }
 
 export async function closeDB() {
@@ -39,9 +46,13 @@ export async function closeDB() {
 }
 
 export async function readAllTableEntries(res, limit) {
-    let data = await db.readAllTablesAndEntriesWithLimit(limit);
-    console.log(data);
-    res.status(200).send(data);
+    try {
+        let data = await db.readAllTablesAndEntriesWithLimit(limit);
+        res.status(200).send(data);
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({'status': 'failure'});   
+    }
 }
 
 // export async function sliceMusicData(res, length) {
@@ -58,31 +69,26 @@ export async function validateUser(data) {
     }
 }
 
-export async function updateMusicData(res, song_name, artist, genre) {
-    let genreData = await db.updateMusicGenre(song_name, artist, genre);
-    if (genreData) {
-        res.status(200).send({'status': song_name + ' by ' + artist + ' genre updated to ' + genre});
-    } else {
-        res.status(404).send({'status':'Song not found'});
+export async function updateTableEntry(res, table, from, to) {
+    try {
+        from._id = from.id;
+        delete from.id;
+        let result = await db.updateTableEntry(table, from, to);
+        res.status(200).send({'status': 'success', 'result': result});   
+    } catch (e) {
+        console.log(e)
+        res.status(404).send({'status': 'failure'});   
     }
 }
 
 
-export async function deleteMusicData(res, song_name, artist) {
-    let deleteData = await db.deleteMusicEntry(song_name, artist);
-    if (deleteData) {
-        res.status(200).send({'status': song_name + ' by ' + artist + ' deleted'});
-    } else {
-        res.status(404).send({'status':'Song not found'});
-    }
-}
-
-export async function deleteMusicDataById(res, id) {
-    let deleteData = await db.deleteTableEntryById("musics",id);
-    if (deleteData) {
-        res.status(200).send({'status': 'Song with id ' + id + ' deleted'});
-    } else {
-        res.status(404).send({'status':'Song not found'});
+export async function deleteTableEntryById(res, table, id) {
+    try {
+        let result = await db.deleteTableEntryById(table, id);
+        res.status(200).send({'status': 'success', 'result': result});   
+    } catch (e) {
+        console.log(e)
+        res.status(404).send({'status': 'failure'});   
     }
 }
 
@@ -94,7 +100,7 @@ export async function getTimesheetAll(req, res) {
     }
     catch(e) {
         console.log(e);
-        res.status(404).json({ error: 'Failed to retrieve data' });
+        res.status(404).json({ error: 'Failed to retrieve data'});
     }
 }
 

@@ -59,7 +59,7 @@ export class Database {
         };
 
         this.rowHeaders["Users"] = {
-            "user_id": "user_id", 
+            "id": "id", 
             "username": "username",
             "password": "password",
             "access_authority": "access_authority",
@@ -86,7 +86,7 @@ export class Database {
         let id = count + 1;
 
         let newUser = {
-            user_id: id,
+            _id: id,
             username: username,
             password: password,
             access_authority: access_authority ? access_authority : 'placeholder',
@@ -141,7 +141,7 @@ export class Database {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].insertOne(entry);
+        let res = await this.collections[table].insertOne(entry);
         return res;
     }
 
@@ -172,7 +172,7 @@ export class Database {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].find({});
+        let res = await this.collections[table].find({}).toArray();
         res.unshift(this.rowHeaders[table]);
         return {"status": "success", "data": res};
     }
@@ -181,7 +181,7 @@ export class Database {
         if (! table in this.collections) {
             return {"status": "failure"};
         }
-        let res = this.collections[table].find(filter);
+        let res = await this.collections[table].find(filter).toArray();
         res.unshift(this.rowHeaders[table]);
         return {"status": "success", "data": res};
     }
@@ -190,16 +190,16 @@ export class Database {
         if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
-        let res = this.collections[table].update(from, to);
-        return {"status": "success"};
+        let res = await this.collections[table].updateOne(from, {$set:to}, { upsert: false });
+        return res;
     }
 
     async deleteTableEntryById(table, id) {
         if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
-        let res = this.collections[table].delete({ id: id });
-        return {"status": "success"};
+        let res = await this.collections[table].delete({ id: id });
+        return res;
     }
 
 }

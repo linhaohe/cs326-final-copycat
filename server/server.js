@@ -18,7 +18,7 @@ app.get('/activities', async (request, response) => {
     const activityType = query.activityType;
     const timeFrom = JSON.parse(query.timeFrom);
     const timeTo = JSON.parse(query.timeTo);
-    await functions.getFakeActivityDatetimes(response, activityType, timeFrom, timeTo);
+    await functions.getActivityDatetimes(response, activityType, timeFrom, timeTo);
 });
 
 app.post('/signup', (req, res) => {
@@ -110,20 +110,18 @@ app.post('/createTableEntry', async (req, res) => {
 
 app.get('/readAllTables', async (req, res) => {
     const limit = req.query.limit;
-    // await functions.sliceMusicData(res, limit);
     await functions.readAllTableEntries(res, limit);
 });
 
-app.put('/UpdateTableEntry', async (req, res) => {
-    const song_name = req.query.song_name;
-    const artist = req.query.artist;
-    const genre = req.query.genre;
-    await functions.updateMusicData(res, song_name, artist, genre);
+app.put('/updateTableEntry', async (req, res) => {
+    const table = req.query.table;
+    await functions.updateTableEntry(res, table, req.body.from, req.body.to);
 });
 
 app.delete('/deleteTableEntry', async (req, res) => {
+    const table = req.query.table;
     const id = req.body.id;
-    await functions.deleteTableEntryById(res, 'Musics', id);
+    await functions.deleteTableEntryById(res, table, id);
 });
 
 app.listen(port, () => {
