@@ -61,7 +61,6 @@ export async function readAllTableEntries(res, limit) {
 // }
 export async function validateUser(data) {
     let user = await db.readUser(data.email);
-    console.log(user.password);
     if (user && user.password === data.password) {
         return true;
     }

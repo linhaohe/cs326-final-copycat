@@ -40,7 +40,6 @@ function checkLoggedIn(req, res, next) {
       next();
     } else {
       // Otherwise, redirect to the login page.
-      console.log("Not authenticated");
       res.redirect('/');
     }
 }

@@ -101,8 +101,6 @@ export class Database {
 
     async readUser(email) {
         let results = await this.collections['Users'].findOne({ email: email });
-        console.log("READ db user");
-        console.log(results);
         return results;
     }
 
