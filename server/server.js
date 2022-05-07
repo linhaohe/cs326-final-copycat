@@ -57,12 +57,6 @@ app.get('/setting', checkLoggedIn, (req, res) => {
     res.sendFile("private/setting.html", { root: __dirname });
 });
 
-
-app.get('/login', (req, res) =>
-    // res.sendFile('page_skeleton/index.html', { root: __dirname })
-    res.redirect('/')
-);
-
 app.post(
     '/login',
     auth.authenticate('local', {
@@ -156,6 +150,10 @@ app.delete('/deleteTableEntry', checkLoggedIn, async (req, res) => {
     const id = req.body.id;
     await functions.deleteTableEntryById(res, table, id);
 });
+
+app.get('/*', checkLoggedIn, (req, res) =>
+    res.redirect('/dashboard')
+);
 
 app.listen(port, () => {
     console.log(`Server started on port ${port}`);
