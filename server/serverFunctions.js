@@ -47,7 +47,15 @@ export async function readAllTablesAndEntries(res, limit) {
 //     let musicData = await db.readAllMusicData();
 //     res.status(200).send({name:"Music", data:musicData.slice(0, length)});
 // }
-
+export async function validateUser(data) {
+    let user = await db.readUser(data.username);
+    if (user && user.password === data.password) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
 
 export async function updateMusicData(res, song_name, artist, genre) {
     let genreData = await db.updateMusicGenre(song_name, artist, genre);

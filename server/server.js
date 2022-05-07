@@ -23,9 +23,15 @@ app.get('/activities', async (request, response) => {
 
 app.post('/signup', (req, res) => {
     functions.signup(req, res);
-})
-app.post('/login', (req, res) => {
-    auth.login(req, res);
+});
+app.post('/login', async (req, res) => {
+    const data = req.body;
+    if (await functions.validateUser(data)) {
+        auth.login(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 
 app.put('/account/[0-9]*/profile',(req,res) => {
@@ -36,22 +42,52 @@ app.put('/account/[0-9]*/profile',(req,res) => {
 
 // TimeSheet endpoinfunctions
 app.get('/timesheet/all', authenticate, async (req, res) => {
-    await functions.getTimesheetAll(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetAll(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 app.get('/timesheet/add', authenticate, async (req, res) => {
-    await functions.getTimesheetAdd(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetAdd(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 app.get('/timesheet/delete', authenticate, async (req, res) => {
-    await functions.getTimesheetDelete(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetDelete(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 app.get('/timesheet/edit', authenticate, async (req, res) => {
-    await functions.getTimesheetEdit(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetEdit(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 app.get('/timesheet/export', authenticate, async (req, res) => {
-    await functions.getTimesheetExport(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetExport(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 app.get('/timesheet/select', authenticate, async (req, res) => {
-    await functions.getTimesheetSelect(req, res);
+    if (await functions.validateUser(req.user)) {
+        await functions.getTimesheetSelect(req, res);
+    }
+    else {
+        res.status(401).send({"error": "unauthorized"});
+    }
 });
 // End of TimeSheet endpoinfunctions
 app.put('/account/[0-9]*/profileImage',(req,res) => {
