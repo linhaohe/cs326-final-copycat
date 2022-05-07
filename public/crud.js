@@ -49,25 +49,25 @@ export async function readActivityDatetimes(activityType, timeFrom, timeTo) {
     return data
 }
 
-async function login(username, password) {
-    const response = await fetch(`/login`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: username, password: password})
-    });
+// async function login(username, password) {
+//     const response = await fetch(`/login`, {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify({ username: username, password: password})
+//     });
 
-    return response.text();
-}
+//     return response.text();
+// }
 
-document.getElementById('submit')?.addEventListener('click', async () => {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+// document.getElementById('submit')?.addEventListener('click', async () => {
+//     const email = document.getElementById('email').value;
+//     const password = document.getElementById('password').value;
 
-    const res = await login(username, password);
-    // const body = document.getElementsByTagName('body')[0].innerHTML = res;
-    document.body.innerHTML = res;
+//     const res = await login(email, password);
+//     // const body = document.getElementsByTagName('body')[0].innerHTML = res;
+//     document.body.innerHTML = res;
 
-    // window.location.replace("http://localhost:3000/dashboard");
-});
+//     // window.location.replace("http://localhost:3000/dashboard");
+// });

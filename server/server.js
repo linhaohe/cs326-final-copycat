@@ -29,7 +29,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use('/', express.static('page_skeleton'));
+// app.use('/page_skeleton', express.static('page_skeleton'));
 app.use('/', express.static('public'));
 
 auth.configure(app);
@@ -40,6 +40,7 @@ function checkLoggedIn(req, res, next) {
       next();
     } else {
       // Otherwise, redirect to the login page.
+      console.log("Not authenticated");
       res.redirect('/');
     }
 }
@@ -61,7 +62,7 @@ app.post(
     '/login',
     auth.authenticate('local', {
       successRedirect: '/dashboard',
-      failureRedirect: '/table',
+      failureRedirect: '/',
     })
 );
 
@@ -81,15 +82,16 @@ app.get('/activities', checkLoggedIn, async (request, response) => {
 app.post('/signup', (req, res) => {
     functions.signup(req, res);
 });
-app.post('/login', async (req, res) => {
-    const data = req.body;
-    if (await functions.validateUser(data)) {
-        auth.login(req, res);
-    }
-    else {
-        res.status(401).send({"error": "unauthorized"});
-    }
-});
+
+// app.post('/login', async (req, res) => {
+//     const data = req.body;
+//     if (await functions.validateUser(data)) {
+//         auth.login(req, res);
+//     }
+//     else {
+//         res.status(401).send({"error": "unauthorized"});
+//     }
+// });
 
 app.put('/account/[0-9]*/profile', checkLoggedIn,(req,res) => {
     //update the database by user request

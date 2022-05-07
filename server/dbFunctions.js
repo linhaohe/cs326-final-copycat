@@ -82,13 +82,14 @@ export class Database {
         this.client.close();
     }
 
-    async createUser(username, password, access_authority, date_created) {
+    async createUser(email, username, password, access_authority, date_created) {
         const count = await this.collections['Users'].countDocuments();
         let id = count + 1;
 
         let newUser = {
             _id: id,
             username: username,
+            email: email,
             password: password,
             access_authority: access_authority ? access_authority : 'placeholder',
             date_created: date_created ? date_created : 'placeholder'
@@ -98,8 +99,10 @@ export class Database {
         return newUser;
     }
 
-    async readUser(username) {
-        let results = await this.collections['Users'].findOne({ username: username });
+    async readUser(email) {
+        let results = await this.collections['Users'].findOne({ email: email });
+        console.log("READ db user");
+        console.log(results);
         return results;
     }
 
