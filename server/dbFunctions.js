@@ -82,7 +82,7 @@ export class Database {
         this.client.close();
     }
 
-    async createUser(email, username, password, access_authority, date_created) {
+    async createUser(username, email, password, access_authority, date_created) {
         const count = await this.collections['Users'].countDocuments();
         let id = count + 1;
 
@@ -104,15 +104,19 @@ export class Database {
         return results;
     }
 
+    async getUserId(email) {
+        return (await this.readUser(email))._id;
+    }
+
     // CREATE an activity instance in the database
-    async createAction(unusedID, user_id, datetime, action, action_id, table) {
+    async createAction(user_id, datetime, action, action_id, table) {
         const count = await this.collections['Actions'].countDocuments();
 
         // Create new id
         let id = count + 1;
 
         let newActivity = {
-            id: id,
+            _id: id,
             action: action,
             action_id: action_id,
             table: table,
@@ -127,7 +131,7 @@ export class Database {
     // Returns an array of JSONs of the given type, type 'all' will return all data in the db
     async readActions(actionType) {
         if (actionType != actionTypes.all) {
-            let results = await this.collections['Actions'].find({ actionType: actionType }).toArray();
+            let results = await this.collections['Actions'].find({ action: actionType }).toArray();
             return results;
         }
         let results = await this.collections['Actions'].find({}).toArray();

@@ -1,8 +1,13 @@
-import {actionTypes} from './constant.js';
+import {actionTypes, actionIds} from './constant.js';
 import {Database} from './dbFunctions.js';
 
 const db = new Database(process.env.DATABASE_URL);
 await db.connect();
+
+async function createActivity(userEmail, actionType, table){
+    const userId = await db.getUserId(userEmail);
+    await db.createAction(userId, JSON.stringify(new Date()), actionType, actionIds[actionType], table);
+}
 
 export async function getActivityDatetimes(response, activityType, timeFrom, timeTo) {
     let activities = await db.readActions(activityType);
@@ -12,48 +17,27 @@ export async function getActivityDatetimes(response, activityType, timeFrom, tim
     }
     let fromDate = new Date(timeFrom);
     let toDate = new Date(timeTo);
-    let results = {};
+    let results = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
     activities = activities.filter( elem => {
-        let elemDate = new Date(elem.date);
+        let elemDate = new Date(JSON.parse(elem.date));
         return fromDate <=  elemDate && elemDate <= toDate ;
     });
     if (activityType !== 'all') {
-        results[activityType] = activities.map(elem => new Date(elem.date));
+        results[activityType] = activities.map(elem => new Date(JSON.parse(elem.date)));
         response.status(200).send(results);
         return;
     }
-    results = {'add': [], 'delete': [], 'edit': [], 'export': [], 'select': []};
     activities.forEach( elem => {
-        results[elem.action].push(new Date(elem.date));
+        console.log(elem.action);
+        results[elem.action].push(new Date(JSON.parse(elem.date)));
     });
     response.status(200).send(results);
-}
-
-export async function createEntryForTable(res, table, item) {
-    try {
-        item._id = parseInt(item.id);
-        delete item.id;
-        const result = db.createTableEntry(table, item);
-        res.status(200).send(result);
-    } catch (e) {
-        console.log(e);
-        res.status(404).send({'status': 'failure'});
-    }
 }
 
 export async function closeDB() {
     await db.close();
 }
 
-export async function readAllTableEntries(res, limit) {
-    try {
-        let data = await db.readAllTablesAndEntriesWithLimit(limit);
-        res.status(200).send(data);
-    } catch (e) {
-        console.log(e);
-        res.status(404).send({'status': 'failure'});   
-    }
-}
 
 // export async function sliceMusicData(res, length) {
 //     let musicData = await db.readAllMusicData();
@@ -69,11 +53,35 @@ export async function validateUser(data) {
     }
 }
 
-export async function updateTableEntry(res, table, from, to) {
+export async function createEntryForTable(res, userEmail, table, item) {
+    try {
+        item._id = parseInt(item.id);
+        delete item.id;
+        const result = await db.createTableEntry(table, item);
+        await createActivity(userEmail, actionTypes.add, table);
+        res.status(200).send(result);
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({'status': 'failure'});
+    }
+}
+
+export async function readAllTableEntries(res, userEmail, limit) {
+    try {
+        let data = await db.readAllTablesAndEntriesWithLimit(limit);
+        res.status(200).send(data);
+    } catch (e) {
+        console.log(e);
+        res.status(404).send({'status': 'failure'});   
+    }
+}
+
+export async function updateTableEntry(res, userEmail, table, from, to) {
     try {
         from._id = from.id;
         delete from.id;
         let result = await db.updateTableEntry(table, from, to);
+        await createActivity(userEmail, actionTypes.edit, table);
         res.status(200).send({'status': 'success', 'result': result});   
     } catch (e) {
         console.log(e)
@@ -82,9 +90,10 @@ export async function updateTableEntry(res, table, from, to) {
 }
 
 
-export async function deleteTableEntryById(res, table, id) {
+export async function deleteTableEntryById(res, userEmail, table, id) {
     try {
         let result = await db.deleteTableEntryById(table, id);
+        await createActivity(userEmail, actionTypes.delete, table);
         res.status(200).send({'status': 'success', 'result': result});   
     } catch (e) {
         console.log(e)
