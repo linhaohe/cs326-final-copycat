@@ -12,7 +12,7 @@
   },
   "scripts": {
     "devStart": "nodemon server.js",
-    "deploy": "copyfiles data/* page_skeleton/* server/* .env package*.json deploy",
+    "deploy": "copyfiles data/* public/* private/* server/* .env package*.json deploy",
     "start": "node server/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,7 +36,8 @@
     "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "passport": "^0.5.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "@faker-js/faker": "^6.1.2"
   },
   "devDependencies": {
     "@faker-js/faker": "^6.1.2",
