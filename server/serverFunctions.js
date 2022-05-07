@@ -31,7 +31,7 @@ export async function getActivityDatetimes(response, activityType, timeFrom, tim
 
 export async function createEntryForTable(res, table, item) {
     try {
-        item._id = id;
+        item._id = parseInt(item.id);
         delete item.id;
         const result = db.createTableEntry(table, item);
         res.status(200).send(result);

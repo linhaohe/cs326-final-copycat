@@ -32,7 +32,7 @@ const addRowToSchema = async(schema, data) =>{
 
 const deleteFromSchema = async(schema, id) =>{
 
-    await fetch(`/music/delete?table=${schema}`,{
+    await fetch(`/deleteTableEntry?table=${schema}`,{
         method: "DELETE",
         headers:{
             "Content-Type":"application/json"
@@ -90,6 +90,8 @@ function renderAddParam(schema, headerData){
             obj[item] = inputBox[item].value;
         }
         await addRowToSchema(schema, obj);
+        await renderTableByClick();
+        document.getElementById(schema).click();
         
     })
 
@@ -118,6 +120,8 @@ function renderDeleteParam(schema){
     button.addEventListener('click', async (event) => {
         event.preventDefault();
         await deleteFromSchema(schema, input.value);
+        await renderTableByClick();
+        document.getElementById(schema).click();
         
     })
 
@@ -133,13 +137,14 @@ const renderTableByClick = async () =>{
     // let myData = [];
     // myData.push(fetchMusicData);
     myData.forEach(data => {
-        const tableSechma = document.createElement("div");
-        tableSechma.classList.add("col");
-        tableSechma.classList.add("px-2");
-        tableSechma.classList.add("my-1");
-        tableSechma.innerHTML = `${data.name}`;
+        const tableSchema = document.createElement("div");
+        tableSchema.classList.add("col");
+        tableSchema.classList.add("px-2");
+        tableSchema.classList.add("my-1");
+        tableSchema.id = `${data.name}`;
+        tableSchema.innerHTML = `${data.name}`;
         
-        tableSechma.addEventListener('click', () => {
+        tableSchema.addEventListener('click', () => {
             tbl.innerHTML = "";
             tableName.innerHTML = `${data.name}`;
 
@@ -156,7 +161,7 @@ const renderTableByClick = async () =>{
             });
         });
 
-        tableItem.appendChild(tableSechma);
+        tableItem.appendChild(tableSchema);
 
     })
 

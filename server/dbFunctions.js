@@ -198,7 +198,7 @@ export class Database {
         if (! table in this.collections || table === 'Actions') {
             return {"status": "failure"};
         }
-        let res = await this.collections[table].delete({ id: id });
+        let res = await this.collections[table].deleteOne({ _id: id });
         return res;
     }
 
