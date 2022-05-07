@@ -2,17 +2,25 @@ import express from 'express';
 import logger from 'morgan';
 import auth from './auth.js';
 import expressSession from 'express-session';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
 
 import * as functions from './serverFunctions.js';
 // import * as tm from './timesheetUtils.js';
 // import * as auth from './auth.js';
+
+
+// We will use __dirname later on to send files back to the client.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(dirname(__filename));
+
 
 const sessionConfig = {
     // set this encryption key in Heroku config (never in GitHub)!
     secret: process.env.ACCESS_TOKEN_SECRET || 'SECRET',
     resave: false,
     saveUninitialized: false,
-  };
+};
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -21,8 +29,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// app.use('/', checkLoggedIn);
-app.use('/', express.static('page_skeleton'));
+// app.use('/', express.static('page_skeleton'));
+app.use('/', express.static('public'));
+
 auth.configure(app);
 
 function checkLoggedIn(req, res, next) {
@@ -35,11 +44,30 @@ function checkLoggedIn(req, res, next) {
     }
 }
 
+app.get('/dashboard', checkLoggedIn, (req, res) => {
+    res.sendFile("private/dashboard.html", { root: __dirname });
+});
+app.get('/table', checkLoggedIn, (req, res) => {
+    res.sendFile("private/table.html", { root: __dirname });
+});
+app.get('/timesheet', checkLoggedIn, (req, res) => {
+    res.sendFile("private/timesheet.html", { root: __dirname });
+});
+app.get('/setting', checkLoggedIn, (req, res) => {
+    res.sendFile("private/setting.html", { root: __dirname });
+});
+
+
+app.get('/login', (req, res) =>
+    // res.sendFile('page_skeleton/index.html', { root: __dirname })
+    res.redirect('/')
+);
+
 app.post(
     '/login',
     auth.authenticate('local', {
       successRedirect: '/dashboard',
-      failureRedirect: '/',
+      failureRedirect: '/table',
     })
 );
 

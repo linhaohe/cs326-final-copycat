@@ -61,6 +61,7 @@ export class Database {
         this.rowHeaders["Users"] = {
             "id": "id", 
             "username": "username",
+            "email": "email",
             "password": "password",
             "access_authority": "access_authority",
             "date_created": "date_created"
