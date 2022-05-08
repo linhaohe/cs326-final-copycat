@@ -64,6 +64,7 @@ export class Database {
             "email": "email",
             "password": "password",
             "access_authority": "access_authority",
+            "address": "address",
             "date_created": "date_created"
         };
 
@@ -83,7 +84,7 @@ export class Database {
         this.client.close();
     }
 
-    async createUser(username, email, password, access_authority, date_created) {
+    async createUser(username, email, password, access_authority, address, date_created) {
         const count = await this.collections['Users'].countDocuments();
         let id = count + 1;
 
@@ -93,6 +94,7 @@ export class Database {
             email: email,
             password: password,
             access_authority: access_authority ? access_authority : 'placeholder',
+            address: address ? address : '',
             date_created: date_created ? date_created : 'placeholder'
         }
 

@@ -167,6 +167,16 @@ export async function getTimesheetSelect(req, res) {
     }
 }
 
+export async function getCurrentUserId(req, res) {
+    try {
+        const userId = await db.getUserId(req.user);
+        res.status(200).send({"user_id": userId});
+    } catch(e) {
+        console.log(e);
+        res.status(404).json({ error: 'Failed to retrieve user id' });
+    }
+}
+
 export async function signup(req, res) {
     const params = req.body;
     try {

@@ -118,15 +118,18 @@ app.get('/timesheet/select', checkLoggedIn, async (req, res) => {
     await functions.getTimesheetSelect(req, res);
 });
 // End of TimeSheet endpoinfunctions
-app.put('/account/[0-9]*/profileImage', checkLoggedIn,(req,res) => {
+app.put('/account/[0-9]*/profileImage', checkLoggedIn, (req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});
 });
 
-app.put('/account/[0-9]*/profilePassword', checkLoggedIn,(req,res) => {
+app.put('/account/[0-9]*/profilePassword', checkLoggedIn, (req,res) => {
     //update profile Image the database by user request
     res.status(200).send({"status":"success"});
+});
 
+app.get('/userId', checkLoggedIn, async (req, res) => {
+    await functions.getCurrentUserId(req, res);
 });
 
 
