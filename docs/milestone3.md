@@ -78,4 +78,4 @@ Database: Nghia Pham, Zetang Lei
 
 ## Conclusion: 
 Copycat is a complicated project that requires all team members to work together. The project is built using raw HTML, ExpressJS, and MongoDB. As a result, every member of the team has gained significant experience developing web applications using these three technical stacks. 
-There are some difficulties encountered. Setting up a code skeleton is one of them as there are many configurations and integrations.
+There are some difficulties encountered. Setting up a code skeleton is one of them as there are many configurations and integrations. Then there were also other difficulties such as implementing logins and able to restrict routing between the pages of the web app. Overall, this project was complicated but we learned a significant amount of web development experience from it.
