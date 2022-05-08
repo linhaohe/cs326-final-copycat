@@ -69,12 +69,12 @@ We have set up roles for authorization in the database. However, there is curren
 
 ## Division of Labor:
 
-Login: Nghia Pham, Zetang Lei, Linhao He
-Dashboard: Zetang Lei
-Tables: Shipeng He,  Zetang Lei,  Linhao He
-Settings: Linhao He
-TimeSheets: Nghia Pham
-Database: Nghia Pham, Zetang Lei
+Login: Nghia Pham, Zetang Lei, Linhao He <br>
+Dashboard: Zetang Lei<br>
+Tables: Shipeng He,  Zetang Lei,  Linhao He<br>
+Settings: Linhao He<br>
+TimeSheets: Nghia Pham<br>
+Database: Nghia Pham, Zetang Lei<br>
 
 ## Conclusion: 
 Copycat is a complicated project that requires all team members to work together. The project is built using raw HTML, ExpressJS, and MongoDB. As a result, every member of the team has gained significant experience developing web applications using these three technical stacks. 
