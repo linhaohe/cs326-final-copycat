@@ -1,15 +1,15 @@
 export async function updatePassword(Password,userId){
-    const reponse = await fetch(`/account/${userId}/profilePassword`,{
+    const reponse = await fetch(`/updateTableEntry?table=Users`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ Password: Password})
+        body: JSON.stringify({from:{
+            id:userId
+        }, to:{
+            password:Password
+        }})
     });
-
-    const data = await reponse.json();
-    
-    return data;
 }
 
 export async function updateProfileImage(imgURL, userId){
@@ -27,12 +27,18 @@ export async function updateProfileImage(imgURL, userId){
 }
 
 export async function updateProfile(name,email,address,userId){
-    const reponse = await fetch(`/account/${userId}/profile`,{
+    const reponse = await fetch(`/updateTableEntry?table=Users`,{
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: name, email:email,address:address})
+        body: JSON.stringify({from:{
+            id:userId
+        }, to:{
+            username:name,
+            email,
+            address
+        }})
     });
 
     const data = await reponse.json();

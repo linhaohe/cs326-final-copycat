@@ -167,10 +167,10 @@ export async function getTimesheetSelect(req, res) {
     }
 }
 
-export async function getCurrentUserId(req, res) {
+export async function getCurrentUserInfo(req, res) {
     try {
-        const userId = await db.getUserId(req.user);
-        res.status(200).send({"user_id": userId});
+        const userInfo = await db.readUser(req.user);
+        res.status(200).send(userInfo);
     } catch(e) {
         console.log(e);
         res.status(404).json({ error: 'Failed to retrieve user id' });

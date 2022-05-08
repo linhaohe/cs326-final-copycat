@@ -1,7 +1,24 @@
 
 import {updatePassword, updateProfileImage, updateProfile} from "../crud.js";
 
+
+const fetchUserInfo = async()=>{
+    const result = await fetch("/userInfo",{
+        method: "GET"
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error("Data not found");
+    }).catch(err => {console.error(err)});
+
+    return result;
+}
+
+
+
 const textBoxName = document.getElementById("Name");
+
 
 const textBoxEmail = document.getElementById("Email");
 
@@ -37,6 +54,7 @@ const handleUpdatePassword = async (event) =>{
 // const handleSaveProfileImage 
 const handleSaveProfile = async (event) =>{
     event.preventDefault();
+    console.log("hello");
     await updateProfile(textBoxName.value , textBoxEmail.value, textBoxAddress.value,1);
 }
 
@@ -56,12 +74,17 @@ const handleSaveProfileImage = async(event) => {
 
   await updateProfileImage(this.result,1);
 
+}
 
+const initlizeData = async()=>{
+    const userInfo = await fetchUserInfo();
+    console.log(userInfo);
+    textBoxName.placeholder = userInfo.username;
 
 }
 
 
-
+await initlizeData();
 
 
 buttonEdit.addEventListener('click', handleSaveProfile);
@@ -69,3 +92,4 @@ buttonEdit.addEventListener('click', handleSaveProfile);
 saveProfileImage.addEventListener('click',handleSaveProfileImage);
 
 buttonSavePassword.addEventListener('click',handleUpdatePassword);
+

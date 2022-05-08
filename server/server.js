@@ -128,8 +128,8 @@ app.put('/account/[0-9]*/profilePassword', checkLoggedIn, (req,res) => {
     res.status(200).send({"status":"success"});
 });
 
-app.get('/userId', checkLoggedIn, async (req, res) => {
-    await functions.getCurrentUserId(req, res);
+app.get('/userInfo', checkLoggedIn, async (req, res) => {
+    await functions.getCurrentUserInfo(req, res);
 });
 
 

@@ -1,11 +1,35 @@
 
-import {updatePassword, updateProfileImage, updateProfile} from "../crud.js";
+import {updatePassword, updateProfileImage, updateProfile} from "./crud.js";
+
+const fetchUserInfo = async()=>{
+    const result = await fetch("/userInfo",{
+        method: "GET"
+    }).then(res => {
+        if(res.ok){
+            return res.json();
+        }
+        throw new Error("Data not found");
+    }).catch(err => {console.error(err)});
+
+    return result;
+}
+const userInfo = await fetchUserInfo();
+
+console.log(userInfo._id);
 
 const textBoxName = document.getElementById("Name");
 
+textBoxName.placeholder = userInfo.username;
+
+
+
 const textBoxEmail = document.getElementById("Email");
 
+textBoxEmail.placeholder = userInfo.email;
+
 const textBoxAddress = document.getElementById("Address");
+
+textBoxAddress.placeholder =  userInfo.address;
 
 const buttonEdit = document.getElementById("saveButton");
 
@@ -28,16 +52,21 @@ const handleUpdatePassword = async (event) =>{
     event.preventDefault();
     if(textBoxPassword.value !== textBoxPasswordConfirm.value){
         errorText.innerHTML = "Password dose not match"
-    }else{
-        errorText.innerHTML = "";
-        await updatePassword(textBoxPassword.value , textBoxPasswordConfirm.value,1);
+    }else if(textBoxPassword.value.length<=0 || textBoxPasswordConfirm.value.length<=0){
+        errorText.innerHTML = "Password cannot be empty"
+    }
+    else{
+        errorText.innerHTML = "Password is Updated";
+        await updatePassword(textBoxPassword.value ,userInfo._id);
     }
 }
 
 // const handleSaveProfileImage 
 const handleSaveProfile = async (event) =>{
     event.preventDefault();
-    await updateProfile(textBoxName.value , textBoxEmail.value, textBoxAddress.value,1);
+    await updateProfile(textBoxName.value.length>0? textBoxName.value: textBoxName.placeholder, 
+        textBoxEmail.value.length>0? textBoxEmail.value: textBoxEmail.placeholder, 
+        textBoxAddress.value.length>0? textBoxAddress.value: textBoxAddress.placeholder, userInfo._id);
 }
 
 const handleSaveProfileImage = async(event) => {

@@ -141,6 +141,7 @@ const renderTableByClick = async () =>{
         tableSchema.classList.add("col");
         tableSchema.classList.add("px-2");
         tableSchema.classList.add("my-1");
+        tableSchema.classList.add("tableName");
         tableSchema.id = `${data.name}`;
         tableSchema.innerHTML = `${data.name}`;
         
