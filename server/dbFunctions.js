@@ -93,7 +93,7 @@ export class Database {
             username: username,
             email: email,
             password: password,
-            access_authority: access_authority ? access_authority : 'placeholder',
+            access_authority: access_authority ? access_authority : 'public',
             address: address ? address : '',
             date_created: date_created ? date_created : 'placeholder'
         }

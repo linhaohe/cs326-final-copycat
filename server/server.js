@@ -44,6 +44,10 @@ function checkLoggedIn(req, res, next) {
     }
 }
 
+app.get('/register', (req, res) => {
+    res.sendFile("public/register.html", { root: __dirname });
+});
+
 app.get('/dashboard', checkLoggedIn, (req, res) => {
     res.sendFile("private/dashboard.html", { root: __dirname });
 });
@@ -78,8 +82,13 @@ app.get('/activities', checkLoggedIn, async (request, response) => {
     await functions.getActivityDatetimes(response, activityType, timeFrom, timeTo);
 });
 
-app.post('/signup', (req, res) => {
-    functions.signup(req, res);
+app.post('/signup', async (req, res) => {
+    const registerSuccess = await functions.signup(req, res);
+    if (registerSuccess) {
+        res.redirect('/login');
+    } else {
+        res.redirect('/register');
+    }
 });
 
 // app.post('/login', async (req, res) => {
